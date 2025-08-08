@@ -65,63 +65,25 @@ function eraseRole() {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  // Cursor flashlight effect
-  const cursorLight = document.querySelector(".cursor-light");
-  
-  document.addEventListener("mousemove", (e) => {
-    cursorLight.style.left = e.clientX + "px";
-    cursorLight.style.top = e.clientY + "px";
-  });
-
-  // Mouse tracking for glow effect on all hero text elements
-  const heroTitle = document.querySelector(".hero-title");
-  const heroIntro = document.querySelector(".hero-intro");
-  const typedWords = document.querySelector(".typed-words");
-  const heroBtn = document.querySelector(".hero-btn");
-  const heroSection = document.querySelector("#hero");
-  
   heroSection.addEventListener("mousemove", (e) => {
-    // Glow effect for hero title
-    const titleRect = heroTitle.getBoundingClientRect();
-    const titleCenterX = titleRect.left + titleRect.width / 2;
-    const titleCenterY = titleRect.top + titleRect.height / 2;
-    const titleDistance = Math.sqrt(
-      Math.pow(e.clientX - titleCenterX, 2) + 
-      Math.pow(e.clientY - titleCenterY, 2)
-    );
-    
-    // Glow effect for button
-    const btnRect = heroBtn.getBoundingClientRect();
-    const btnCenterX = btnRect.left + btnRect.width / 2;
-    const btnCenterY = btnRect.top + btnRect.height / 2;
-    const btnDistance = Math.sqrt(
-      Math.pow(e.clientX - btnCenterX, 2) + 
-      Math.pow(e.clientY - btnCenterY, 2)
-    );
-    
-    const maxDistance = 200;
-    
+
     // Apply glow to hero title
     const titleIntensity = Math.max(0, 1 - titleDistance / maxDistance);
     const titleGlowIntensity = 8 + (titleIntensity * 24);
     const titleGlowSpread = 16 + (titleIntensity * 48);
-    heroTitle.style.textShadow = `0 0 ${titleGlowIntensity}px #1e90ff, 0 0 ${titleGlowSpread}px #1e90ff`;
+    heroTitle.style.textShadow = `0 0 ${titleGlowIntensity}px #F97316, 0 0 ${titleGlowSpread}px #F97316`;
     
     
     // Apply faint blue glow to button
     const btnIntensity = Math.max(0, 1 - btnDistance / maxDistance);
     const btnGlowIntensity = 2 + (btnIntensity * 8);
     const btnGlowSpread = 4 + (btnIntensity * 16);
-    heroBtn.style.textShadow = `0 0 ${btnGlowIntensity}px #1e90ff, 0 0 ${btnGlowSpread}px #1e90ff`;
-    heroBtn.style.boxShadow = `0 0 ${btnGlowIntensity * 3}px #1e90ff`;
+    heroBtn.style.textShadow = `0 0 ${btnGlowIntensity}px #F97316, 0 0 ${btnGlowSpread}px #F97316`;
+    heroBtn.style.boxShadow = `0 0 ${btnGlowIntensity * 3}px #F97316`;
   });
 
   // Role typing will be triggered after bio typing completes
 
-  // Smooth scrolling for About Me button and About nav link
-  const aboutBtn = document.querySelector(".hero-btn");
-  const aboutNavLink = document.querySelector('a[href="#about"]');
-  
   function scrollToAbout() {
     const aboutSection = document.querySelector("#about");
     aboutSection.scrollIntoView({ behavior: 'smooth' });
@@ -130,20 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (aboutBtn) aboutBtn.addEventListener("click", scrollToAbout);
   if (aboutNavLink) aboutNavLink.addEventListener("click", scrollToAbout);
 
-  // ANIMATION SETTINGS - Easy to adjust!
-  const ANIMATION_SETTINGS = {
-    // About page sequence timing
-    sectionScrollMultiplier: 0.8,    // How much of section height to use (0.5 = faster, 1.0 = slower)
-    startOffset: 0.15,               // When first element appears (0.0 = immediately, 0.2 = later) - increased to make quote appear later
-    elementSpacing: 0.12,            // Time between elements (0.1 = faster, 0.2 = slower) - reduced to make education appear sooner
-    popInSpeed: 0.08,                // How fast each element pops in (0.05 = faster, 0.1 = slower)
-    
-    // Animation properties
-    animationDuration: 0.6,          // Duration of pop-in animation
-    popInDistance: 30,               // How far elements move when popping in
-    quoteFadeAmount: 0.7             // How much quote fades out (0.5 = more visible, 1.0 = invisible)
-  };
-
+  
   // Sequential pop-in/pop-out animations with specific order for about page
   function updateWordVisibility() {
     const viewportTop = window.scrollY;
@@ -151,63 +100,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const viewportCenter = window.scrollY + window.innerHeight / 2;
     const viewportHeight = window.innerHeight;
     
-    // Define the specific about page sequence
+    // Define the specific about page sequence (removed education elements)
     const aboutSequence = [
       { selector: '.about-quote-full p', name: 'quote' },
       { selector: '.about-left h2', name: 'greeting' },
       { selector: '.about-photo', name: 'photo' },
       { selector: '.about-welcome', name: 'welcome' },
       { selector: '.about-right p:not(.about-welcome)', name: 'description' },
-      { selector: '.journey-btn', name: 'button' },
-      { selector: '.education-left h2, .education-right', name: 'education' }
+      { selector: '.journey-btn', name: 'button' }
     ];
     
-    // Handle about page sequence
-    const aboutSection = document.getElementById('about');
-    if (aboutSection) {
-      const aboutRect = aboutSection.getBoundingClientRect();
-      const aboutProgress = Math.max(0, Math.min(1, (viewportHeight - aboutRect.top) / (aboutRect.height * ANIMATION_SETTINGS.sectionScrollMultiplier)));
-      
-      aboutSequence.forEach((item, index) => {
-        const elements = document.querySelectorAll(item.selector);
-        const triggerPoint = ANIMATION_SETTINGS.startOffset + (index * ANIMATION_SETTINGS.elementSpacing);
-        const fadeOutPoint = Math.min(1, triggerPoint + 0.15);
-        
-        elements.forEach(element => {
-          let targetOpacity = 0;
-          let targetY = ANIMATION_SETTINGS.popInDistance;
-          let targetScale = 0.95;
-          
-          // Pop in when scroll reaches trigger point
-          if (aboutProgress >= triggerPoint) {
-            const popInProgress = Math.max(0, Math.min(1, (aboutProgress - triggerPoint) / ANIMATION_SETTINGS.popInSpeed));
-            
-            // Special handling for quote (fades out when photo appears)
-            if (item.name === 'quote' && aboutProgress >= (ANIMATION_SETTINGS.startOffset + (2 * ANIMATION_SETTINGS.elementSpacing))) {
-              const fadeOutProgress = Math.max(0, Math.min(1, (aboutProgress - fadeOutPoint) / ANIMATION_SETTINGS.popInSpeed));
-              targetOpacity = 1 - (fadeOutProgress * ANIMATION_SETTINGS.quoteFadeAmount);
-              targetY = -fadeOutProgress * 20;
-              targetScale = 1 - (fadeOutProgress * 0.03);
-            } else {
-              // Normal pop-in animation
-              targetOpacity = popInProgress;
-              targetY = ANIMATION_SETTINGS.popInDistance * (1 - popInProgress);
-              targetScale = 0.95 + (0.05 * popInProgress);
-            }
-          }
-          
-          // Apply animation
-          gsap.to(element, {
-            opacity: targetOpacity,
-            y: targetY,
-            scale: targetScale,
-            duration: ANIMATION_SETTINGS.animationDuration,
-            ease: "back.out(1.4)",
-            overwrite: true
-          });
-        });
-      });
-    }
+  
     
     // Handle other page elements with standard fade animation
     const otherElements = document.querySelectorAll('h1, h2, h3, p, .journey-btn, .typed-words, .tech');
@@ -235,29 +138,14 @@ document.addEventListener("DOMContentLoaded", () => {
       let targetY = 0;
       let targetScale = 1;
       
-      // Handle typed-words loading animation 
+      // Handle typed-words visibility - no loading animation needed
       if (element.classList.contains('typed-words')) {
         const isVisible = elementCenter >= topFadeZone && elementCenter <= bottomFadeZone;
         
         if (isVisible) {
-          // Show the element and start loading animation
+          // Show the element and start role typing immediately
           if (!element.classList.contains('show')) {
             element.classList.add('show');
-            console.log('Typed-words now visible, starting loading animation');
-            startLoadingAnimation();
-          }
-          
-          // If bio is complete and loading is running, start the deletion sequence
-          if (bioTypingComplete && loadingInterval && !element.classList.contains('role-typing-started')) {
-            element.classList.add('role-typing-started'); // Prevent multiple triggers
-            console.log('Starting role typing sequence');
-            setTimeout(async () => {
-              await deleteLoadingText();
-              roleIndex = 0;
-              charIndex = 0;
-              isTyping = false;
-              typeRole();
-            }, 2000); // 2 second delay to see loading animation
           }
         }
       }
@@ -391,7 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
 gsap.registerPlugin(ScrollTrigger);
 
 
-// Element animation system
+// Element animation system (removed education elements - controlled by handleScreenFade)
 function initializeElementAnimations() {
   const animatableElements = [
     '.about-quote-full p',
@@ -399,8 +287,6 @@ function initializeElementAnimations() {
     '.about-photo',
     '.about-right p:not(.about-welcome)',
     '.journey-btn',
-    '.education-left h2',
-    '.education-right',
     '.stack-heading',
     '.tech'
   ];
@@ -416,7 +302,7 @@ function initializeElementAnimations() {
 
 
 
-// STICKY HERO FADE OUT ON SCROLL - Background stays fixed, content slides up
+// STICKY HERO SCROLL - Background stays visible, names fade, content slides up
 window.addEventListener('scroll', () => {
   const hero = document.getElementById('hero');
   const heroSpacer = document.querySelector('.hero-spacer');
@@ -424,27 +310,41 @@ window.addEventListener('scroll', () => {
   if (!hero || !heroSpacer || !aboutSection) return;
   
   const fadeStart = 0;
-  const fadeEnd = window.innerHeight * 0.4; // MUCH FASTER FADE (was 1.5)
+  const fadeEnd = window.innerHeight * 0.4;
   const scrollY = window.scrollY;
-  let opacity = 1;
   
-  if (scrollY > fadeStart) {
-    opacity = 1 - Math.min(1, (scrollY - fadeStart) / (fadeEnd - fadeStart));
-  }
-  
-  // Fade the fixed background
-  gsap.set(hero, {
-    opacity: opacity,
-    overwrite: true
-  });
+  // Don't override hero opacity - let Vanta scroll handler control it
   
   // Fade the scrolling names as they move up
+  let nameOpacity = 1;
+  if (scrollY > fadeStart) {
+    nameOpacity = 1 - Math.min(1, (scrollY - fadeStart) / (fadeEnd - fadeStart));
+  }
+  
   gsap.set(heroSpacer, {
-    opacity: opacity,
+    opacity: nameOpacity,
     overwrite: true
   });
   
-  // Animate about section content sliding up
+  // Also fade out hero description elements (typing card and intro blurb)
+  const heroTypingCard = document.querySelector('.hero-typing-card');
+  const heroIntroBlurb = document.querySelector('.hero-intro-blurb');
+  
+  if (heroTypingCard) {
+    gsap.set(heroTypingCard, {
+      opacity: nameOpacity,
+      overwrite: true
+    });
+  }
+  
+  if (heroIntroBlurb) {
+    gsap.set(heroIntroBlurb, {
+      opacity: nameOpacity,
+      overwrite: true
+    });
+  }
+  
+  // Animate about section content sliding up and fade in about elements
   const slideStart = window.innerHeight * 0.5;
   if (scrollY > slideStart) {
     const slideProgress = Math.min(1, (scrollY - slideStart) / (window.innerHeight * 0.5));
@@ -453,6 +353,20 @@ window.addEventListener('scroll', () => {
       opacity: 1,
       overwrite: true
     });
+    
+    // Fade in about section elements when entering about section
+    const hiSticky = document.querySelector('.about-hi-sticky');
+    const hiPhoto = document.querySelector('.about-hi-photo');
+    
+    if (hiSticky && !hiSticky.classList.contains('about-hi-sticky-visible')) {
+      hiSticky.classList.add('about-hi-sticky-visible');
+      console.log('Added about-hi-sticky-visible class');
+    }
+    
+    if (hiPhoto && !hiPhoto.classList.contains('fade-in')) {
+      hiPhoto.classList.add('fade-in');
+    }
+    
   } else {
     gsap.set(aboutSection, {
       y: 100,
@@ -462,127 +376,19 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// Centered progress bar overlay logic
-window.addEventListener('scroll', () => {
-  const overlay = document.getElementById('about-overlay');
-  const progressBar = document.getElementById('about-scroll-progress');
-  const progressFill = progressBar ? progressBar.querySelector('.progress-bar-fill') : null;
-  const aboutSection = document.getElementById('about');
-  const hero = document.getElementById('hero');
-  if (!overlay || !progressBar || !progressFill || !aboutSection || !hero) return;
-
-  const heroOpacity = parseFloat(window.getComputedStyle(hero).opacity);
-  if (heroOpacity > 0.01) {
-    overlay.classList.remove('visible');
-    overlay.classList.add('hidden');
-    return;
-  }
-
-  const aboutRect = aboutSection.getBoundingClientRect();
-  const windowHeight = window.innerHeight;
-  let progress = 0;
-  if (aboutRect.top < windowHeight && aboutRect.bottom > 0) {
-    progress = Math.max(0, Math.min(1, 6 * (windowHeight - aboutRect.top) / (aboutRect.height + windowHeight))); // Faster progress bar
-  }
-  progressFill.style.width = Math.round(progress * 100) + '%';
-
-  // Hide progress bar when user starts entering experience section
-  const experienceSection = document.getElementById('experience');
-  if (experienceSection) {
-    const expRect = experienceSection.getBoundingClientRect();
-    if (expRect.top <= windowHeight * 0.9) {
-      overlay.classList.add('hidden');
-      overlay.classList.remove('visible');
-      return;
-    }
-  }
-  
-  // Show progress bar if still in about section
-  overlay.classList.add('visible');
-  overlay.classList.remove('hidden');
-  
-  // Fade out about me elements as approaching experience section
-  const hiSticky = document.querySelector('.about-hi-sticky');
-  const hiPhoto = document.querySelector('.about-hi-photo');
-  const hiSubtitle = document.querySelector('.about-hi-subtitle');
-  const para1 = document.querySelector('#para-1');
-  const para2 = document.querySelector('#para-2');
-  const navButtons = document.querySelector('.about-nav-buttons');
-  
-  if (experienceSection) {
-    const expRect = experienceSection.getBoundingClientRect();
-    const fadeStartDistance = windowHeight * 2.0; // Start fading when exp section is 1.4 screen heights away
-    const fadeEndDistance = windowHeight * 1.5; // Fully faded when exp section is 0.6 screen heights away
-    
-    let fadeOpacity = 1;
-    if (expRect.top <= fadeStartDistance && expRect.top >= fadeEndDistance) {
-      fadeOpacity = (expRect.top - fadeEndDistance) / (fadeStartDistance - fadeEndDistance);
-      shouldFadeOut = true;
-      fadeOutOpacity = fadeOpacity;
-    } else if (expRect.top < fadeEndDistance) {
-      fadeOpacity = 0;
-      shouldFadeOut = true;
-      fadeOutOpacity = 0;
-    } else {
-      shouldFadeOut = false;
-      fadeOutOpacity = 1;
-    }
-    
-    // Apply fade to all about me elements if fading out
-    if (shouldFadeOut) {
-      [hiPhoto, hiSubtitle, para1, para2, navButtons].forEach(element => {
-        if (element) {
-          element.style.opacity = fadeOpacity;
-        }
-      });
-      
-      // Only fade out hello text if it's already visible (progress bar completed)
-      if (hiSticky && hiSticky.classList.contains('about-hi-sticky-visible')) {
-        hiSticky.style.opacity = fadeOpacity;
-      }
-    }
-  }
-  
-  if (progress >= 1) {
-    console.log('Progress reached 100%, showing elements:', { hiSticky, hiPhoto });
-    if (hiSticky) hiSticky.classList.add('about-hi-sticky-visible');
-    if (hiPhoto) {
-      hiPhoto.classList.add('about-hi-photo-visible');
-      console.log('Photo element found and visible class added');
-    } else {
-      console.log('Photo element NOT found');
-    }
-    // Hide progress bar and THOMAS.EXE
-    if (progressBar) progressBar.classList.remove('about-system-progress-visible');
-    const thomasExe = document.getElementById('thomas-exe-center');
-    if (thomasExe) thomasExe.classList.remove('about-system-center-visible');
-  } else {
-    overlay.classList.add('visible');
-    overlay.classList.remove('hidden');
-    // Fade out about-hi-sticky and photo
-    const hiSticky = document.querySelector('.about-hi-sticky');
-    const hiPhoto = document.querySelector('.about-hi-photo');
-    if (hiSticky) hiSticky.classList.remove('about-hi-sticky-visible');
-    if (hiPhoto) hiPhoto.classList.remove('about-hi-photo-visible');
-    // Fade in progress bar and THOMAS.EXE
-    if (progressBar) progressBar.classList.add('about-system-progress-visible');
-    const thomasExe = document.getElementById('thomas-exe-center');
-    if (thomasExe) thomasExe.classList.add('about-system-center-visible');
-  }
-});
 
 // --- Enhanced Human Typing Animation for Bio ---
 const humanTypingSequence = [
-  { text: "Hi! I'm ", speed: 45 },
-  { text: "Thomas", speed: 65, bold: true, color: "#000", effect: "glow", boldDelay: 400 },
-  { text: ", an undergraduate mathematics and computer science major at ", speed: 35 },
-  { text: "UPenn", speed: 50, emphasis: true },
-  { pause: 200 },
-  { text: ".", speed: 50 },
-  { text: " I love turning strategic thinking", speed: 40 },
-  { pause: 800, cursorBlink: "thinking" },
-  { backspace: 26, speed: 25 }, // "turning strategic thinking"
-  { text: "applying game theory and mathematical reasoning into software solutions.", speed: 35 }
+  { text: "Hi! I'm ", speed: 25 },
+  { text: "Thomas", speed: 35, bold: true, color: "#000", effect: "glow", boldDelay: 200 },
+  { text: ", an undergraduate mathematics and computer science major at ", speed: 20 },
+  { text: "UPenn", speed: 30, emphasis: true },
+  { pause: 100 },
+  { text: ".", speed: 30 },
+  { text: " I love turning strategic thinking", speed: 25 },
+  { pause: 400, cursorBlink: "thinking" },
+  { backspace: 26, speed: 15 }, // "turning strategic thinking"
+  { text: "applying game theory and mathematical reasoning into software solutions.", speed: 20 }
 ];
 
 class HumanTypeWriter {
@@ -670,68 +476,14 @@ class HumanTypeWriter {
   }
 }
 
-// Loading dots animation variables
-let loadingInterval = null;
-let loadingDotCount = 0;
-
-// Function to animate loading dots (keeping "Loading" centered)
-function startLoadingAnimation() {
-  if (!typedEl) return;
-  
-  loadingInterval = setInterval(() => {
-    // Use fixed-width spaces for dots to maintain center alignment
-    const dots = [
-      '   ',     // 0 dots = 3 spaces
-      '.  ',     // 1 dot + 2 spaces
-      '.. ',     // 2 dots + 1 space
-      '...'      // 3 dots
-    ];
-    typedEl.innerHTML = 'Loading' + dots[loadingDotCount];
-    loadingDotCount = (loadingDotCount + 1) % 4; // Cycle through 0, 1, 2, 3 dots
-  }, 500); // Change dots every 500ms
-}
-
-// Function to stop loading animation and delete text via typing
-async function deleteLoadingText() {
-  if (!typedEl) return;
-  
-  // Stop the loading animation
-  if (loadingInterval) {
-    clearInterval(loadingInterval);
-    loadingInterval = null;
-  }
-  
-  const currentText = typedEl.textContent; // Get current loading text with dots
-  console.log('Deleting Loading text:', currentText);
-  
-  // Show cursor for deletion animation
-  typedEl.classList.add('cursor-visible');
-  typedEl.classList.add('typing');
-  
-  // Delete current loading text character by character
-  for (let i = currentText.length; i > 0; i--) {
-    typedEl.textContent = currentText.substring(0, i - 1);
-    await new Promise(resolve => setTimeout(resolve, 60 + Math.random() * 20));
-  }
-  
-  // Clean up: remove typing cursor state after deletion is complete
-  typedEl.classList.remove('typing');
-  
-  // Brief pause with empty field
-  await new Promise(resolve => setTimeout(resolve, 300));
-  
-  console.log('Loading text deleted, ready to start role cycle');
-}
 
 const bioTextEl = document.getElementById('bio-text');
 const bioCursorEl = document.getElementById('bio-cursor');
 
-// Initially hide the typed-words element - will show when scrolled
+// Initialize typed-words element for role cycling
 if (typedEl) {
-  typedEl.classList.remove('cursor-visible');
-  typedEl.classList.remove('typing');
-  typedEl.classList.remove('show'); // Start hidden
-  typedEl.textContent = 'Loading   '; // Prepare loading text
+  typedEl.classList.add('show'); // Make it visible
+  typedEl.textContent = ''; // Start empty
 }
 // Show bio cursor
 if (bioCursorEl) bioCursorEl.style.opacity = 1;
@@ -756,7 +508,66 @@ function handleElementFadeIn(selector) {
 
   const elementRect = element.getBoundingClientRect();
   const windowHeight = window.innerHeight;
+  const windowWidth = window.innerWidth;
+  const isVerticalMode = windowWidth <= 964;
   
+  // In vertical mode, use scroll-based fade-in relative to about section
+  if (isVerticalMode) {
+    const aboutSection = document.getElementById('about');
+    if (!aboutSection) return;
+    
+    const aboutRect = aboutSection.getBoundingClientRect();
+    const scrollY = window.scrollY;
+    const aboutStart = scrollY + aboutRect.top;
+    const aboutHeight = aboutRect.height;
+    
+    // Calculate how far we've scrolled into the about section
+    const scrollProgress = Math.max(0, Math.min(1, (scrollY - aboutStart) / (aboutHeight * 0.8)));
+    
+    // Different fade timings for different elements in vertical mode
+    let elementFadeStart = 0;
+    let elementFadeEnd = 0.3;
+    
+    if (selector === '.about-hi-sticky') {
+      elementFadeStart = 0;
+      elementFadeEnd = 0.2;
+    } else if (selector === '.about-hi-photo') {
+      elementFadeStart = 0.1;
+      elementFadeEnd = 0.3;
+    } else if (selector === '.about-hi-subtitle') {
+      elementFadeStart = 0.2;
+      elementFadeEnd = 0.4;
+    } else if (selector === '#para-1') {
+      elementFadeStart = 0.3;
+      elementFadeEnd = 0.5;
+    } else if (selector === '#para-2') {
+      elementFadeStart = 0.4;
+      elementFadeEnd = 0.6;
+    } else if (selector === '.about-nav-buttons') {
+      elementFadeStart = 0.5;
+      elementFadeEnd = 0.7;
+    }
+    
+    let fadeProgress = 0;
+    if (scrollProgress >= elementFadeStart && scrollProgress <= elementFadeEnd) {
+      fadeProgress = (scrollProgress - elementFadeStart) / (elementFadeEnd - elementFadeStart);
+      fadeProgress = Math.max(0, Math.min(1, fadeProgress));
+    } else if (scrollProgress > elementFadeEnd) {
+      fadeProgress = 1;
+    }
+    
+    element.style.opacity = fadeProgress;
+    
+    if (fadeProgress > 0) {
+      element.classList.add('fade-in');
+    } else {
+      element.classList.remove('fade-in');
+    }
+    
+    return;
+  }
+  
+  // Original logic for horizontal mode
   // Special handling for buttons - keep them visible once they appear
   if (selector === '.about-nav-buttons') {
     // For buttons, once they fade in, keep them visible
@@ -785,14 +596,14 @@ function handleElementFadeIn(selector) {
     return;
   }
   
-  // Regular fade-in for other elements
-  const fadeStartPoint = windowHeight * 0.8; // Start fading when 80% down viewport
-  const fadeEndPoint = windowHeight * 0.6;   // Fully visible when 60% down viewport
+  // Regular fade-in for other elements - longer and more gradual
+  const fadeStartPoint = windowHeight * 1.2; // Start fading much earlier when element is still below viewport
+  const fadeEndPoint = windowHeight * 0.6;   // Fully visible when element is at their sticky position
   
   let fadeProgress = 0;
   
   if (elementRect.top <= fadeStartPoint && elementRect.top >= fadeEndPoint) {
-    // Element is in the fade zone
+    // Element is in the fade zone - much longer fade distance
     fadeProgress = (fadeStartPoint - elementRect.top) / (fadeStartPoint - fadeEndPoint);
     fadeProgress = Math.max(0, Math.min(1, fadeProgress));
   } else if (elementRect.top < fadeEndPoint) {
@@ -810,24 +621,278 @@ function handleElementFadeIn(selector) {
   }
 }
 
-// Handle fade-in for multiple elements - now works on all screen sizes
+// Track scroll direction
+let lastScrollY = window.scrollY;
+let scrollDirection = 'down';
+
+window.addEventListener('scroll', () => {
+  const currentScrollY = window.scrollY;
+  scrollDirection = currentScrollY > lastScrollY ? 'down' : 'up';
+  lastScrollY = currentScrollY;
+});
+
+// Handle right education container fade-in after grey box appears
+function handleRightEducationFadeIn() {
+  const greyBox = document.querySelector('.screen-width-grey-box');
+  const educationElements = document.querySelectorAll('.right-education-container .timeline-container, .right-education-container .experience-cards-container, .right-education-container .research-cards-container');
+  
+  if (!greyBox || !educationElements.length) return;
+  
+  // Check if grey box has faded in (opacity > 0.5)
+  const greyBoxStyle = window.getComputedStyle(greyBox);
+  const greyBoxOpacity = parseFloat(greyBoxStyle.opacity);
+  
+  if (greyBoxOpacity > 0.5) {
+    // Grey box is visible, so fade in the education elements
+    educationElements.forEach(element => {
+      element.classList.add('fade-in');
+    });
+  } else {
+    // Grey box not visible yet, keep education elements hidden
+    educationElements.forEach(element => {
+      element.classList.remove('fade-in');
+    });
+  }
+}
+
+// Handle grey box fade-in after buttons appear
+function handleGreyBoxFadeIn() {
+  const greyBox = document.querySelector('.screen-width-grey-box');
+  const buttons = document.querySelector('.about-nav-buttons');
+  
+  if (!greyBox || !buttons) return;
+  
+  // Check if buttons have faded in (opacity > 0.5)
+  const buttonsStyle = window.getComputedStyle(buttons);
+  const buttonsOpacity = parseFloat(buttonsStyle.opacity);
+  
+  if (buttonsOpacity > 0.5) {
+    // Buttons are visible, so fade in the grey box
+    greyBox.classList.add('fade-in');
+  } else {
+    // Buttons not visible yet, keep grey box hidden
+    greyBox.classList.remove('fade-in');
+  }
+}
+
+// Handle fade-in for non-education elements only
 function handleAllFadeIns() {
   handleElementFadeIn('.about-hi-photo');
   handleElementFadeIn('.about-hi-subtitle');
   handleElementFadeIn('#para-1');
   handleElementFadeIn('#para-2');
   handleElementFadeIn('.about-nav-buttons');
+  handleGreyBoxFadeIn(); // Add grey box fade-in
+  handleRightEducationFadeIn(); // Add right education container fade-in
+  // Removed .about-hi-sticky as it's controlled by handleScreenFade
+}
+
+// Handle about section fade out over education section
+function handleAboutSectionFade() {
+  const aboutContainer = document.querySelector('#about .container');
+  const educationSection = document.getElementById('experience');
   
-  // Debug: check if buttons element exists
-  const buttons = document.querySelector('.about-nav-buttons');
-  if (!buttons) {
-    console.log('Buttons element not found!');
+  if (!aboutContainer || !educationSection) return;
+  
+  const scrollY = window.scrollY;
+  const aboutRect = aboutContainer.getBoundingClientRect();
+  const aboutEnd = scrollY + aboutRect.top + aboutRect.height;
+  
+  // Start fading at the very end of the about section
+  const fadeStartPoint = aboutEnd - 100; // Start fade 100px before end
+  const fadeEndPoint = aboutEnd; // Complete fade at end
+  
+  let fadeProgress = 0;
+  
+  if (scrollY >= fadeStartPoint && scrollY <= fadeEndPoint) {
+    // Quick fade - calculate progress over small distance
+    fadeProgress = (scrollY - fadeStartPoint) / (fadeEndPoint - fadeStartPoint);
+    fadeProgress = Math.max(0, Math.min(1, fadeProgress));
+  } else if (scrollY > fadeEndPoint) {
+    fadeProgress = 1; // Fully faded
+  }
+  
+  // Apply quick fade effect to about section
+  aboutContainer.style.opacity = 1 - fadeProgress;
+}
+
+// Continuously update Thomas Ou section position to track "HELLO. I AM THOMAS" element
+function updateThomasOuPosition() {
+  const thomasOuSection = document.querySelector('.thomas-ou-section');
+  const aboutThomasOu = document.querySelector('.about-hi-sticky');
+  
+  // Only update position if the element is visible (has fade-in class)
+  if (thomasOuSection && aboutThomasOu && thomasOuSection.classList.contains('fade-in')) {
+    const aboutThomasRect = aboutThomasOu.getBoundingClientRect();
+    
+    // Continuously update fixed position to track the reference element
+    thomasOuSection.style.position = 'fixed';
+    thomasOuSection.style.top = (aboutThomasRect.top + 80) + 'px';
+    thomasOuSection.style.left = aboutThomasRect.left + 'px';
+    thomasOuSection.style.zIndex = '1000';
+  }
+}
+
+// Handle solid grey box background when education content appears  
+function handleScreenFade() {
+  const aboutSection = document.getElementById('about');
+  const overlay = document.querySelector('.screen-fade-overlay');
+  const thomasOuSection = document.querySelector('.thomas-ou-section');
+  const aboutThomasOu = document.querySelector('.about-hi-sticky');
+  const thomasOuTitle = document.querySelector('.thomas-ou-title');
+  const thomasOuDetails = document.querySelector('.thomas-ou-details');
+  
+  if (!aboutSection || !overlay) return;
+  
+  const aboutRect = aboutSection.getBoundingClientRect();
+  const scrollY = window.scrollY;
+  const aboutStart = scrollY + aboutRect.top;
+  const aboutHeight = aboutRect.height;
+  const windowHeight = window.innerHeight;
+  
+  // Show grey overlay sooner through the about section
+  const overlayStartPoint = aboutStart + (aboutHeight * 0.77); // Start at 77% through about section
+  const overlayEndPoint = aboutStart + aboutHeight + (windowHeight * 0.4); // Fade out much sooner in education section
+  
+  if (scrollY >= overlayStartPoint && scrollY <= overlayEndPoint) {
+    // Show full grey background
+    overlay.style.opacity = 1;
+    
+    // Fade in Thomas Ou title and details elements at the same time as the grey overlay
+    if (thomasOuTitle) {
+      thomasOuTitle.classList.add('fade-in');
+    }
+    if (thomasOuDetails) {
+      thomasOuDetails.classList.add('fade-in');
+    }
+    
+    // Fade in education content at the same time as grey overlay
+    const educationContentRight = document.querySelector('.education-content-right');
+    if (educationContentRight) {
+      educationContentRight.classList.add('fade-in');
+    }
+    
+    // Fade in education timeline at the same time, but fade out at 95% through about section
+    const educationTimeline = document.querySelector('.education-timeline-fixed');
+    const timelineFadeOutPoint = aboutStart + (aboutHeight * 0.90); // Fade out at 80% through about section
+    
+    if (educationTimeline && scrollY < timelineFadeOutPoint) {
+      educationTimeline.classList.add('fade-in');
+    } else if (educationTimeline) {
+      educationTimeline.classList.remove('fade-in');
+    }
+    
+    // Update navigation highlighting based on scroll position (outside timeline logic)
+    const educationNavItem = document.querySelector('[data-section="education"]');
+    const experienceNavItem = document.querySelector('[data-section="experience"]');
+    const researchNavItem = document.querySelector('[data-section="research"]');
+    
+    // Navigation based on spatial sections using section titles as boundaries
+    const experienceTitle = document.querySelector('.experience-section-title');
+    const researchTitle = document.querySelector('.research-section-title');
+    
+    // Get section positions
+    const experienceRect = experienceTitle ? experienceTitle.getBoundingClientRect() : null;
+    const researchRect = researchTitle ? researchTitle.getBoundingClientRect() : null;
+    
+    // Clear all active states
+    if (educationNavItem) educationNavItem.classList.remove('active');
+    if (experienceNavItem) experienceNavItem.classList.remove('active');
+    if (researchNavItem) researchNavItem.classList.remove('active');
+    
+    // Simple spatial boundaries
+    if (researchRect && researchRect.top < windowHeight * 0.6) {
+      // Research section is visible
+      if (researchNavItem) researchNavItem.classList.add('active');
+    } else if (experienceRect && experienceRect.top < windowHeight * 0.6) {
+      // Experience section is visible
+      if (experienceNavItem) experienceNavItem.classList.add('active');
+    } else if (scrollY >= overlayStartPoint) {
+      // Education area (everything above experience)
+      if (educationNavItem) educationNavItem.classList.add('active');
+    }
+
+    // Handle section focus animation based on navigation indicators
+    const timelineContainer = document.querySelector('.timeline-container');
+    const experienceContainer = document.querySelector('.experience-cards-container');
+    const researchContainer = document.querySelector('.research-cards-container');
+    const educationTitleElement = document.querySelector('.education-section-title');
+    const experienceTitleElement = document.querySelector('.experience-section-title');
+    const researchTitleElement = document.querySelector('.research-section-title');
+    
+    // Remove all focus classes first
+    if (timelineContainer) timelineContainer.classList.remove('in-focus');
+    if (experienceContainer) experienceContainer.classList.remove('in-focus');
+    if (researchContainer) researchContainer.classList.remove('in-focus');
+    if (educationTitleElement) educationTitleElement.classList.remove('in-focus');
+    if (experienceTitleElement) experienceTitleElement.classList.remove('in-focus');
+    if (researchTitleElement) researchTitleElement.classList.remove('in-focus');
+    
+    // Add focus class based on which navigation item is active
+    if (researchNavItem && researchNavItem.classList.contains('active')) {
+      if (researchContainer) researchContainer.classList.add('in-focus');
+      if (researchTitleElement) researchTitleElement.classList.add('in-focus');
+    } else if (experienceNavItem && experienceNavItem.classList.contains('active')) {
+      if (experienceContainer) experienceContainer.classList.add('in-focus');
+      if (experienceTitleElement) experienceTitleElement.classList.add('in-focus');
+    } else if (educationNavItem && educationNavItem.classList.contains('active')) {
+      if (timelineContainer) timelineContainer.classList.add('in-focus');
+      if (educationTitleElement) educationTitleElement.classList.add('in-focus');
+    }
+    
+    // Fade in Thomas Ou section and position it fixed relative to viewport based on "HELLO. I AM THOMAS"
+    if (thomasOuSection && aboutThomasOu) {
+      const aboutThomasRect = aboutThomasOu.getBoundingClientRect();
+      
+      // Apply fixed positioning using viewport coordinates from getBoundingClientRect
+      thomasOuSection.style.position = 'fixed';
+      thomasOuSection.style.top = (aboutThomasRect.top + 80) + 'px';
+      thomasOuSection.style.left = aboutThomasRect.left + 'px';
+      thomasOuSection.style.zIndex = '1000'; // Ensure it stays on top
+      thomasOuSection.classList.add('fade-in');
+    }
+  } else {
+    // Hide overlay when outside the range
+    overlay.style.opacity = 0;
+    
+    // Fade out Thomas Ou title and details elements when the grey overlay disappears
+    if (thomasOuTitle) {
+      thomasOuTitle.classList.remove('fade-in');
+    }
+    if (thomasOuDetails) {
+      thomasOuDetails.classList.remove('fade-in');
+    }
+    
+    // Fade out education content when grey overlay disappears
+    const educationContentRight = document.querySelector('.education-content-right');
+    if (educationContentRight) {
+      educationContentRight.classList.remove('fade-in');
+    }
+    
+    // Fade out education timeline at the same time
+    const educationTimeline = document.querySelector('.education-timeline-fixed');
+    if (educationTimeline) {
+      educationTimeline.classList.remove('fade-in');
+    }
+    
+    // Fade out Thomas Ou section but maintain fixed positioning
+    if (thomasOuSection) {
+      thomasOuSection.classList.remove('fade-in');
+      // Keep fixed positioning even when hidden
+      thomasOuSection.style.position = 'fixed';
+    }
   }
 }
 
 // Add scroll listener for all fade-ins
 window.addEventListener('scroll', handleAllFadeIns);
+window.addEventListener('scroll', handleAboutSectionFade);
+window.addEventListener('scroll', handleScreenFade);
+window.addEventListener('scroll', updateThomasOuPosition);
 window.addEventListener('DOMContentLoaded', handleAllFadeIns);
+window.addEventListener('DOMContentLoaded', handleAboutSectionFade);
+window.addEventListener('DOMContentLoaded', handleScreenFade);
+window.addEventListener('DOMContentLoaded', updateThomasOuPosition);
 
 // Start human typing animation on DOMContentLoaded
 window.addEventListener('DOMContentLoaded', async () => {
@@ -841,36 +906,182 @@ window.addEventListener('DOMContentLoaded', async () => {
     // Hide bio cursor after bio typing is 100% complete
     if (bioCursorEl) bioCursorEl.style.opacity = 0;
     
-    // Mark bio typing as complete
+    // Mark bio typing as complete and start role typing immediately
     bioTypingComplete = true;
-    console.log('Bio typing completed, waiting for user to scroll to loading text');
+    console.log('Bio typing completed, starting role cycling');
     
-    // Don't automatically start role typing - wait for user to see the loading animation first
-    // Role typing will start when loading animation is deleted after user scrolls
+    // Start role typing immediately
+    if (typedEl) {
+      roleIndex = 0;
+      charIndex = 0;
+      isTyping = false;
+      typeRole();
+    }
   }
+
+  // Experience Cards Modal Functionality
+  const experienceData = {
+    'flushing-cpa': {
+      title: 'Data & Analytics',
+      company: 'Flushing CPA Tax Center',
+      location: 'New York, NY',
+      year: 'Feb 2024 -- May 2024',
+      details: [
+        'Engineered ETL pipelines automating high-volume data ingestion, improved projection accuracy by 15%.',
+        'Created Excel-based compliance detection macros; streamlined anomaly detection in client returns.',
+        'Built and validated regression models to estimate quarterly tax liabilities for SMBs.'
+      ]
+    },
+    'spodnick-law': {
+      title: 'Legal Research & NLP',
+      company: 'Offices of Jonathan Spodnick',
+      location: 'Trumbull, CT',
+      year: 'Sep 2023 -- Dec 2023',
+      details: [
+        'Conducted legal research and prepared discovery documentation for state-level personal injury cases.',
+        'Built a Python-based NLP tool to categorize legal texts and reduce manual review time.',
+        'Used statistical methods to analyze injury claim trends and settlement values.'
+      ]
+    },
+    'citic-securities': {
+      title: 'Fintech Analyst',
+      company: 'CITIC Securities',
+      location: 'Beijing, China',
+      year: 'Jun 2023 -- Jul 2023',
+      details: [
+        'Contributed to listing proposal for $11B spaceflight network company by analyzing growth metrics.',
+        'Assessed the market impact of regulatory penalties during CITIC\'s RMB regulatory penalty.',
+        'Supported the preparation of a prospectus for issuing $18 billion in convertible bonds for a regional bank.'
+      ]
+    }
+  };
+
+  // Research Cards Modal Functionality
+  const researchData = {
+    'pppl': {
+      title: 'Research Assistant',
+      company: 'Princeton Plasma Physics Lab (PPPL)',
+      year: 'Jul 2024 -- Aug 2024',
+      details: [
+        'Simulated charged particle behavior in tokamak reactors under varied magnetic/plasma conditions.',
+        'Built statistical models to predict fusion rates based on confinement and operational variables.'
+      ]
+    },
+    'capstone': {
+      title: 'Bayesian Behavioral Modeling Approach to Opponent Profiling',
+      company: 'Capstone Project',
+      year: 'Sep 2023 -- May 2024',
+      details: [
+        'Designed a Bayesian inference model to estimate opponent bluffing tendencies across multi-street poker hands using betting patterns, position, and stack context.',
+        'Built poker engine to simulate hand histories and dynamically update probabilistic opponent profiles.',
+        'Applied game-theoretic reasoning and EV optimization to generate counter-strategies against varying bluff frequencies and behavioral profiles.'
+      ]
+    }
+  };
+
+  // Research card click handlers
+  document.querySelectorAll('.research-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const researchId = card.dataset.research;
+      const research = researchData[researchId];
+      
+      if (research) {
+        const modal = document.getElementById('research-modal');
+        const modalContent = modal.querySelector('.research-modal-content');
+        
+        // Populate modal content
+        modal.querySelector('.research-year-badge').textContent = research.year;
+        modal.querySelector('.research-modal-title').textContent = research.title;
+        modal.querySelector('.research-modal-company').textContent = research.company;
+        
+        // Populate details
+        const detailsContainer = modal.querySelector('.research-modal-details');
+        detailsContainer.innerHTML = '<ul>' + research.details.map(detail => `<li>${detail}</li>`).join('') + '</ul>';
+        
+        // Show modal
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  // Research modal close functionality
+  const researchModal = document.getElementById('research-modal');
+  const researchModalClose = researchModal.querySelector('.research-modal-close');
+  
+  function closeResearchModal() {
+    researchModal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  
+  researchModalClose.addEventListener('click', closeResearchModal);
+  
+  // Close modal when clicking outside
+  researchModal.addEventListener('click', (e) => {
+    if (e.target === researchModal) {
+      closeResearchModal();
+    }
+  });
+  
+  // Close modal with Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && researchModal.classList.contains('active')) {
+      closeResearchModal();
+    }
+  });
+
+
+  // Experience card click handlers
+  document.querySelectorAll('.experience-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const experienceId = card.dataset.experience;
+      const experience = experienceData[experienceId];
+      
+      if (experience) {
+        const modal = document.getElementById('experience-modal');
+        const modalContent = modal.querySelector('.experience-modal-content');
+        
+        // Populate modal content
+        modal.querySelector('.experience-year-badge').textContent = experience.year;
+        modal.querySelector('.experience-modal-title').textContent = experience.title;
+        modal.querySelector('.experience-modal-company').textContent = experience.company;
+        modal.querySelector('.experience-modal-location').textContent = experience.location;
+        
+        // Populate details
+        const detailsContainer = modal.querySelector('.experience-modal-details');
+        detailsContainer.innerHTML = '<ul>' + experience.details.map(detail => `<li>${detail}</li>`).join('') + '</ul>';
+        
+        // Show modal
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  // Modal close functionality
+  const experienceModal = document.getElementById('experience-modal');
+  const experienceModalClose = experienceModal.querySelector('.experience-modal-close');
+  
+  function closeExperienceModal() {
+    experienceModal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  
+  experienceModalClose.addEventListener('click', closeExperienceModal);
+  
+  // Close modal when clicking outside
+  experienceModal.addEventListener('click', (e) => {
+    if (e.target === experienceModal) {
+      closeExperienceModal();
+    }
+  });
+  
+  // Close modal with Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && experienceModal.classList.contains('active')) {
+      closeExperienceModal();
+    }
+  });
+
 });
 
-// Animated background for Education section using Vanta.js GLOBE
-window.addEventListener('DOMContentLoaded', () => {
-  if (window.VANTA && window.VANTA.GLOBE && document.getElementById('education-bg-animated')) {
-    window.VANTA.GLOBE({
-      el: '#education-bg-animated',
-      mouseControls: false,
-      touchControls: false,
-      gyroControls: false,
-      minHeight: 200.00,
-      minWidth: 200.00,
-      scale: 1.0,
-      scaleMobile: 1.0,
-      color: 0x1e90ff, // blue accent
-      color2: 0xffffff, // white
-      backgroundColor: 0xf5f5f5, // white
-      size: 1.2,
-      points: 16.0,
-      maxDistance: 22.0,
-      spacing: 18.0,
-      showDots: true,
-      opacity: 0.18
-    });
-  }
-});
