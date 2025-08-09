@@ -60,6 +60,32 @@ body {
   margin: 0 auto;
 }
 
+/* Hide mobile hello thomas and summary by default */
+.mobile-hello-thomas,
+.mobile-summary-container {
+  display: none;
+}
+
+/* About me elements start invisible and fade in on scroll */
+body .about-hi-sticky:not(.fade-in),
+body .about-hi-photo:not(.fade-in),
+body .about-hi-subtitle:not(.fade-in),
+body #para-1:not(.fade-in),
+body #para-2:not(.fade-in),
+body .about-nav-buttons:not(.fade-in) {
+  opacity: 0 !important;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.about-hi-sticky.fade-in,
+.about-hi-photo.fade-in,
+.about-hi-subtitle.fade-in,
+#para-1.fade-in,
+#para-2.fade-in,
+.about-nav-buttons.fade-in {
+  opacity: 1 !important;
+}
+
 
 /* Vertical stacking when screen is too narrow for minimum rectangle size */
 @media (max-width: 964px) {
@@ -67,149 +93,6 @@ body {
     padding: 0 !important;
   }
   
-  /* Hide Thomas Ou title and details in mobile */
-  .thomas-ou-title,
-  .thomas-ou-details {
-    display: none !important;
-  }
-  
-  /* Add mobile header for education section */
-  #education::before {
-    content: '';
-    display: block;
-    width: 100%;
-    height: auto;
-    position: relative;
-    z-index: 200;
-  }
-  
-  /* Mobile education header styling */
-  .education-mobile-header {
-    display: block !important;
-    text-align: center;
-    padding: 2rem 1rem;
-    background: transparent;
-    position: relative;
-    z-index: 200;
-  }
-  
-  .education-mobile-hello {
-    display: block;
-    font-family: 'Anton', 'Montserrat', 'Inter', Arial, sans-serif;
-    font-size: clamp(2rem, 8vw, 3rem);
-    font-weight: 900;
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 1rem;
-  }
-  
-  .education-mobile-summary {
-    display: block;
-    font-family: 'Fira Mono', 'Consolas', 'Monaco', monospace;
-    font-size: 1rem;
-    color: white;
-    max-width: 400px;
-    margin: 0 auto 2rem auto;
-    line-height: 1.6;
-  }
-  
-  /* Mobile social links - styled like horizontal mode */
-  .education-mobile-social-links {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 3rem;
-    width: 100%;
-    flex-shrink: 0;
-  }
-  
-  .mobile-social-link {
-    color: rgba(255, 255, 255, 0.7);
-    transition: color 0.3s ease, transform 0.3s ease;
-    text-decoration: none;
-    border: 2px solid transparent;
-    padding: 0.75rem;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-  }
-  
-  .mobile-social-link:hover {
-    color: #ffffff;
-    transform: translateY(-2px);
-    background: rgba(249, 115, 22, 0.2);
-    border-color: rgba(249, 115, 22, 0.3);
-  }
-  
-  .mobile-social-link svg {
-    width: 24px;
-    height: 24px;
-    fill: currentColor;
-  }
-  
-  /* Make education content container same width as about me container in mobile */
-  .education-content-right {
-    position: relative !important;
-    left: 0 !important;
-    width: 85vw !important;
-    max-width: 550px !important;
-    margin: 0 auto !important;
-    padding: 1rem !important;
-    text-align: center !important;
-  }
-  
-  /* Center all education section titles and make them bigger */
-  .education-section-title,
-  .experience-section-title,
-  .research-section-title {
-    text-align: center !important;
-    margin-bottom: 2rem !important;
-  }
-  
-  #education .education-section-title h3,
-  #education .experience-section-title h3, 
-  #education .research-section-title h3 {
-    font-size: clamp(2rem, 2.5vw, 5em) !important;
-    font-weight: 900 !important;
-    margin-bottom: 1rem !important;
-    color: white !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1px !important;
-  }
-  
-  /* Center timeline and cards */
-  .timeline-container,
-  .experience-cards-container,
-  .research-cards-container {
-    margin: 0 auto !important;
-    text-align: center !important;
-  }
-  
-  /* Timeline items centered */
-  .timeline-item {
-    margin-bottom: 3rem !important;
-  }
-  
-  /* Experience and research cards centered */
-  .experience-card,
-  .research-card {
-    margin: 0 auto 2rem auto !important;
-    max-width: 100% !important;
-  }
-}
-  
-  /* Hide hamburger menu in vertical mode */
-  .hamburger-menu {
-    display: none !important;
-  }
-
   .about-two-column {
     flex-direction: column;
     width: 85vw !important;
@@ -241,40 +124,254 @@ body {
     display: none !important;
   }
   
+  /* Hide Thomas Ou title and details in mobile */
+  .thomas-ou-title,
+  .thomas-ou-details {
+    display: none !important;
+  }
+  
+  /* Show mobile header for education section */
+  .education-mobile-header {
+    display: block !important;
+    text-align: center;
+    padding: 2rem 1rem;
+    background: transparent;
+    color: white;
+    z-index: 200;
+    position: relative;
+  }
+  
+  /* Show mobile hello thomas in vertical mode */
+  .mobile-hello-thomas {
+    display: block !important;
+    position: fixed !important;
+    top: 11.8vh !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 9999 !important;
+  }
+  
+  /* Show mobile summary container in vertical mode */
+  .mobile-summary-container {
+    display: block !important;
+    position: fixed !important;
+    top: 18vh !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    text-align: right !important;
+    z-index: 9999 !important;
+    padding: 0 0 0 1.5rem !important;
+    width: 85vw !important;
+    max-width: 550px !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Education hello duplicate - fixed position in vertical mode */
+  .education-hello-duplicate {
+    font-size: clamp(1.2rem, 6vw, 2.2rem) !important;
+    position: relative !important;
+    width: 85vw !important;
+    max-width: 550px !important;
+    margin: 0 !important;
+    text-align: right !important;
+    padding-right: 0 !important;
+    padding-left: 1rem !important;
+    box-sizing: border-box !important;
+    font-family: 'Anton', 'Montserrat', 'Inter', Arial, sans-serif;
+    font-weight: 900;
+    color: #ffffff !important;
+    line-height: 1.05;
+    width: fit-content;
+    transform: scaleY(1.7) !important;
+  }
+  
+  /* Override fade-in opacity for education hello duplicate */
+  body .mobile-hello-thomas .about-hi-sticky.education-hello-duplicate {
+    opacity: 1 !important;
+  }
+  
+  /* Make all text inside education hello white */
+  .education-hello-duplicate * {
+    color: #ffffff !important;
+  }
+  
+  /* Hide thomas ou in mobile version but show hello i am */
+  .mobile-hello-thomas .about-hi-sub {
+    display: none !important;
+  }
+  
+  /* Right align social icons in mobile summary container */
+  .mobile-summary-container .education-mobile-social-links {
+    justify-content: flex-end !important;
+  }
+  
+  /* Fade animation for mobile elements */
+  .mobile-hello-thomas,
+  .mobile-summary-container {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .mobile-hello-thomas.fade-in,
+  .mobile-summary-container.fade-in {
+    opacity: 1;
+  }
+  
+  .education-mobile-summary {
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+  }
+  
+  .education-mobile-social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  
+  .mobile-social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .mobile-social-link:hover {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: #ffffff;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
+  }
+  
+  .mobile-social-link svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    transition: fill 0.3s ease;
+  }
+  
+  /* Make education container match about me container in vertical mode */
+  #education .container {
+    width: 85vw !important;
+    max-width: 550px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+  
+  .education-layout {
+    flex-direction: column !important;
+    width: 100% !important;
+    min-height: auto !important;
+    gap: 2rem !important;
+  }
+  
+  .education-content-right {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+  
+  /* Move My Stack section further down in vertical mode */
+  #projects {
+    margin-top: 100vh !important;
+  }
+  
+  /* Hero container mobile styles */
+  .hero-container {
+    width: 90vw !important;
+    max-width: 800px !important;
+    height: 80vh !important;
+    border: none !important;
+  }
+  
+  /* Thomas text takes full width in mobile, OU stays right-aligned */
+  .hero-name-top {
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    text-align: left !important;
+  }
+  
+  .hero-name-bottom {
+    right: 0 !important;
+    text-align: right !important;
+    width: auto !important;
+  }
+  
+  /* Make Thomas font bigger in mobile with max size */
+  .hero-name {
+    font-size: clamp(8vw, 26.8vw, 12rem) !important;
+  }
+  
+  /* Center the typing card in mobile and make it bigger */
+  .hero-typing-card {
+    left: 50% !important;
+    top: 50% !important;
+    right: auto !important;
+    width: clamp(320px, 85%, 600px) !important;
+    height: clamp(180px, 35%, 320px) !important;
+    transform: translate(-50%, -50%) rotate(-6deg) !important;
+  }
+  
+  /* Bio box responsive sizes in mobile */
+  .hero-intro-blurb {
+    width: clamp(250px, 50vw, 400px) !important;
+    height: auto !important;
+  }
+  
+  /* Bio text responsive size in mobile */
+  html body #bio-text,
+  html body #bio-cursor {
+    font-size: clamp(0.6rem, 2.2vw, 1rem) !important;
+  }
+  
   body .about-container .about-hi-sticky {
     font-size: clamp(1.2rem, 6vw, 2.2rem) !important;
     position: sticky !important;
-    top: 5vh !important;
+    top: 12vh !important;
     width: 85vw !important;
-    max-width: 600px !important;
+    max-width: 550px !important;
     margin: 0 auto !important;
     text-align: right !important;
-    padding-right: 1rem !important;
-    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-left: 1rem !important;
     box-sizing: border-box !important;
     z-index: 102 !important;
+    border: none !important;
   }
   
   .about-container .about-hi-sticky .about-hi-sub {
     display: block !important;
     text-align: right !important;
-    margin-top: 0.2rem !important;
+    margin-top: -.2rem !important;
   }
   
   body .about-container .about-hi-subtitle {
     position: sticky !important;
-    top: 57vh !important;
+    top: 54vh !important;
     text-align: left !important;
     z-index: 98 !important;
   }
   
   .about-container .about-hi-photo {
-    top: -5vh !important;
+    top: -3.5vh !important;
   }
   
   .about-hi-photo img {
-    width: min(60vw, 400px) !important;
-    height: min(60vw, 400px) !important;
+    width: min(55vw, 350px) !important;
+    height: min(55vw, 350px) !important;
   }
   
   .about-description-paragraph {
@@ -286,19 +383,19 @@ body {
   /* Move description paragraphs further down in vertical mode */
   body .about-container #para-1 {
     position: sticky !important;
-    top: 62vh !important;
+    top: 58vh !important;
     z-index: 98 !important;
   }
   
   body .about-container #para-2 {
     position: sticky !important;
-    top: 72vh !important;
+    top: 66vh !important;
     z-index: 97 !important;
   }
   
   body .about-container .about-nav-buttons {
     position: sticky !important;
-    top: 85vh !important;
+    top: 78vh !important;
     z-index: 96 !important;
     max-width: 700px !important;
     margin: 0 auto !important;
@@ -320,6 +417,37 @@ body {
   
   .about-two-column::after {
     display: none;
+  }
+  
+  /* Top overlay in vertical mode */
+  .top-overlay-vertical {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 8vh !important;
+    background: #262423 !important;
+    z-index: 999 !important;
+    pointer-events: auto !important;
+  }
+  
+  /* Move hamburger menu inside overlay in vertical mode */
+  .hamburger-menu {
+    display: block !important;
+    position: absolute !important;
+    top: 50% !important;
+    right: 2rem !important;
+    transform: translateY(-50%) !important;
+    z-index: 1001 !important;
+  }
+}
+
+/* Hide duplicate social icons and mobile elements in horizontal mode */
+@media (min-width: 965px) {
+  .mobile-hello-thomas,
+  .mobile-summary-container,
+  .mobile-social-link {
+    display: none !important;
   }
 }
 
@@ -420,37 +548,49 @@ button:hover, .btn:hover {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border: 5px solid red;
   z-index: 1;
+}
+
+/* Hero container - matches about me section width */
+.hero-container {
+  width: min(95vw, 170vh);
+  height: min(60vw, 95vh);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  box-sizing: border-box;
 }
 
 
 .hero-name-stack {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  max-width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   z-index: 1;
   pointer-events: none;
   will-change: opacity;
   overflow: hidden;
-  border: 3px solid green;
 }
 
 .hero-name-front-stack {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  max-width: 100vw;
-  height: 100vh;
-  z-index: 1;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
   pointer-events: none;
   will-change: opacity;
   overflow: hidden;
-  border: 3px solid purple;
 }
 
 .hero-name {
@@ -480,17 +620,19 @@ button:hover, .btn:hover {
 .hero-name-top {
   position: absolute !important;
   top: 0 !important;
-  left: clamp(1rem, 6vw, 3rem) !important;
+  left: 0 !important;
   transform: none !important;
   width: auto !important;
   z-index: 1;
   margin: 0 !important;
   padding: 0 !important;
+  line-height: 1 !important;
+  vertical-align: top !important;
 }
 .hero-name-bottom {
   position: absolute !important;
   bottom: 0 !important;
-  right: clamp(2rem, 8vw, 4rem) !important;
+  right: 0 !important;
   transform: none !important;
   width: auto !important;
   z-index: 1;
@@ -501,20 +643,19 @@ button:hover, .btn:hover {
 
 .hero-typing-card {
   position: absolute;
-  left: max(50%, 58% - (100vw - 1200px) * 0.01);
+  right: 5%;
   top: 25%;
-  transform: translate(-30%, 0%) rotate(-6deg);
+  transform: rotate(-6deg);
   z-index: 2;
-  width: min(1000px, 70vw);
-  min-height: min(500px, 50vh);
+  width: clamp(450px, 60%, 1000px);
+  height: clamp(250px, 52%, 550px);
   background: #fff;
   border-radius: 1.2rem;
   box-shadow: 0 8px 32px rgba(30,144,255,0.13), 0 1.5px 6px rgba(0,198,251,0.09);
-  border: 3px solid orange;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: min(3.5rem, 4vh) min(2.5rem, 3vw);
+  padding: clamp(2rem, 5%, 4rem);
   will-change: transform, scale, border-radius, z-index;
 }
 
@@ -551,44 +692,6 @@ button:hover, .btn:hover {
 
 
 /* Portrait orientation - smaller sizes for vertical screens */
-@media (orientation: portrait) {
-  .hero-name {
-    font-size: min(30vw, 22.5vh) !important;
-    z-index: -1 !important;
-  }
-  
-  .hero-name-top {
-    top: 8.5vh !important;
-  }
-  
-  .hero-name-bottom {
-    bottom: 4vh !important;
-  }
-  
-  .hero-typing-card {
-    width: 95vw !important;
-    min-height: 40vh !important;
-    left: 50% !important;
-    top: 55% !important;
-    transform: translate(-50%, -50%) rotate(-6deg) !important;
-    padding: 2rem 1.5rem !important;
-  }
-  
-  .typed-words {
-    font-size: clamp(1.2rem, 5vw, 2.5rem) !important;
-  }
-  
-  .hero-intro-blurb {
-    bottom: 2rem !important;
-    left: 2vw !important;
-    transform: none !important;
-    text-align: left !important;
-    font-size: 0.85rem !important;
-    top: auto !important;
-    max-width: 50vw !important;
-    width: 50vw !important;
-  }
-}
 
 
 
@@ -853,28 +956,33 @@ footer {
 }
 
 .hero-intro-blurb {
-  position: fixed;
-  left: clamp(2rem, 8vw, 4rem);
-  right: auto;
-  bottom: 5.5rem;
+  position: absolute;
+  left: 0;
+  bottom: 18px;
   z-index: 1000;
-  max-width: min(480px, 30vw);
-  width: min(480px, 30vw);
-  font-size: min(1.18rem, 1.4vw);
+  width: clamp(200px, 30vw, 480px);
+  max-width: max(clamp(200px, 30vw, 480px), max-content);
+  height: clamp(50px, 16vw, 200px);
+  font-size: clamp(0rem, 1.2vw, 1.2rem) !important;
   color: #181818;
   background: rgba(255,255,255,0.32);
-  border-radius: 1.1rem;
+  border-radius: clamp(0.6rem, 2vw, 1.1rem);
   box-shadow: 0 8px 32px 0 rgba(30,144,255,0.13), 0 1.5px 6px rgba(0,198,251,0.09);
-  border: 3px solid blue;
-  padding: 1.2rem 1.5rem;
+  padding: clamp(0.3rem, 1.5vw, 0.8rem) clamp(0.8rem, 4vw, 1.5rem);
   font-family: 'Montserrat', 'Inter', 'Arial', sans-serif;
   font-weight: 500;
   line-height: 1.7;
   letter-spacing: 0.01em;
   backdrop-filter: blur(12px);
-  border: 1.5px solid rgba(30,144,255,0.13);
+  border: 1.5px solid rgba(30,144,
+
+, 0.13);
   margin-left: 0;
   margin-right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
 }
 
 
@@ -910,9 +1018,6 @@ footer {
   padding-right: 0;
 }
 
-.about-hi-sticky {
-  opacity: 1 !important;
-}
 .about-hi-sticky.about-hi-sticky-visible {
   opacity: 1;
   pointer-events: auto;
@@ -1213,7 +1318,7 @@ footer {
   position: absolute;
   left: 1.5rem;
   top: 1.7rem; /* Align with center of first dot */
-  height: 40rem;
+  height: 30rem;
   width: 2px;
   background: linear-gradient(to bottom, var(--accent-primary) 80%, transparent 100%);
 }
@@ -2275,7 +2380,7 @@ footer {
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--accent-primary);
-  margin-bottom: 1rem;
+  margin-bottom: 0.25rem;
 }
 
 .research-card-preview {
@@ -2551,42 +2656,12 @@ footer {
   z-index: 10;
 }
 
-#projects .section-title h2 {
-  color: #ffffff;
-  background: rgba(249, 115, 22, 0.1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(249, 115, 22, 0.3);
-  border-radius: 12px;
-  padding: 1.5rem 2rem;
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 3rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.stack-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 1.5rem;
-  padding: 3rem 0;
-  max-width: 1200px;
-  margin: 0 auto;
-  animation: fadeInUp 0.8s ease-out;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+#projects .section-title h2,
+#my-stack .section-title h2 {
+  color: #000000;
+  background: white;
+  padding: 1rem;
+  border: 2px solid red;
 }
 
 #my-stack {
@@ -2606,25 +2681,21 @@ footer {
   color: #000000;
 }
 
-#projects .tech {
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(249, 115, 22, 0.05) 100%);
-  color: #ffffff;
-  border: 1px solid rgba(249, 115, 22, 0.3);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
+#projects .tech,
+#my-stack .tech {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  color: #000000;
+  border: 2px solid #dee2e6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-#projects .tech:hover {
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.9) 0%, rgba(249, 115, 22, 0.7) 100%);
+#projects .tech:hover,
+#my-stack .tech:hover {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, #0066cc 100%);
   color: white;
-  border-color: #F97316;
-  box-shadow: 0 8px 24px rgba(249, 115, 22, 0.4);
-  transform: translateY(-4px) scale(1.05);
+  border-color: var(--accent-primary);
+  box-shadow: 0 4px 16px rgba(249, 115, 22, 0.3);
+  transform: translateY(-2px);
 }
 
 /* Grey section box and screen-width grey box */
