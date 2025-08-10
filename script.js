@@ -119,6 +119,14 @@ document.addEventListener("DOMContentLoaded", () => {
       // Skip about page elements (already handled above)
       if (element.closest('#about')) return;
       
+      // Skip specific about me elements that have their own fade-in logic
+      if (element.classList.contains('about-hi-sticky') || 
+          element.classList.contains('about-hi-photo') || 
+          element.classList.contains('about-hi-subtitle') || 
+          element.id === 'para-1' || 
+          element.id === 'para-2' || 
+          element.classList.contains('about-nav-buttons')) return;
+      
       const rect = element.getBoundingClientRect();
       const elementTop = rect.top + window.scrollY;
       const elementCenter = elementTop + rect.height / 2;
@@ -173,9 +181,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Add scroll event listener for fade-in/fade-out animations
-  window.addEventListener('scroll', updateWordVisibility);
-  window.addEventListener('DOMContentLoaded', updateWordVisibility);
+  // Disabled to prevent conflicts with custom about me fade-in logic
+  // window.addEventListener('scroll', updateWordVisibility);
+  // window.addEventListener('DOMContentLoaded', updateWordVisibility);
   
   
   // Initialize element animations
@@ -310,7 +318,7 @@ window.addEventListener('scroll', () => {
   if (!hero || !heroSpacer || !aboutSection) return;
   
   const fadeStart = 0;
-  const fadeEnd = window.innerHeight * 0.4;
+  const fadeEnd = window.innerHeight * 0.2; // Faster fade - reduced from 0.4 to 0.2
   const scrollY = window.scrollY;
   
   // Don't override hero opacity - let Vanta scroll handler control it
@@ -350,21 +358,16 @@ window.addEventListener('scroll', () => {
     const slideProgress = Math.min(1, (scrollY - slideStart) / (window.innerHeight * 0.5));
     gsap.set(aboutSection, {
       y: 0,
-      opacity: 1,
+      // opacity removed - let individual elements handle their own fade-ins
       overwrite: true
     });
     
-    // Fade in about section elements when entering about section  
-    const hiPhoto = document.querySelector('.about-hi-photo');
-    
-    if (hiPhoto && !hiPhoto.classList.contains('fade-in')) {
-      hiPhoto.classList.add('fade-in');
-    }
+    // About section elements are now handled by handleAllFadeIns function
     
   } else {
     gsap.set(aboutSection, {
       y: 100,
-      opacity: 0.8,
+      // opacity removed - let individual elements handle their own fade-ins  
       overwrite: true
     });
   }
@@ -489,130 +492,6 @@ let bioTypingComplete = false;
 let shouldFadeOut = false;
 let fadeOutOpacity = 1;
 
-// Universal fade-in animation that works on all screen sizes
-function handleElementFadeIn(selector) {
-  const element = document.querySelector(selector);
-  if (!element) return;
-
-  // If elements should be fading out, don't override with fade-in
-  if (shouldFadeOut) {
-    element.style.opacity = fadeOutOpacity;
-    return;
-  }
-
-  const elementRect = element.getBoundingClientRect();
-  const windowHeight = window.innerHeight;
-  const windowWidth = window.innerWidth;
-  const isVerticalMode = windowWidth <= 964;
-  
-  // In vertical mode, use scroll-based fade-in relative to about section
-  if (isVerticalMode) {
-    const aboutSection = document.getElementById('about');
-    if (!aboutSection) return;
-    
-    const aboutRect = aboutSection.getBoundingClientRect();
-    const scrollY = window.scrollY;
-    const aboutStart = scrollY + aboutRect.top;
-    const aboutHeight = aboutRect.height;
-    
-    // Calculate how far we've scrolled into the about section - slower progression
-    const scrollProgress = Math.max(0, Math.min(1, (scrollY - aboutStart) / (aboutHeight * 1.2)));
-    
-    // Different fade timings for different elements in vertical mode - slower/longer
-    let elementFadeStart = 0;
-    let elementFadeEnd = 0.5;
-    
-    if (selector === '.about-hi-sticky') {
-      elementFadeStart = 0;
-      elementFadeEnd = 0.3;
-    } else if (selector === '.about-hi-photo') {
-      elementFadeStart = 0.1;
-      elementFadeEnd = 0.4;
-    } else if (selector === '.about-hi-subtitle') {
-      elementFadeStart = 0.2;
-      elementFadeEnd = 0.5;
-    } else if (selector === '#para-1') {
-      elementFadeStart = 0.3;
-      elementFadeEnd = 0.6;
-    } else if (selector === '#para-2') {
-      elementFadeStart = 0.4;
-      elementFadeEnd = 0.7;
-    } else if (selector === '.about-nav-buttons') {
-      elementFadeStart = 0.5;
-      elementFadeEnd = 0.8;
-    }
-    
-    let fadeProgress = 0;
-    if (scrollProgress >= elementFadeStart && scrollProgress <= elementFadeEnd) {
-      fadeProgress = (scrollProgress - elementFadeStart) / (elementFadeEnd - elementFadeStart);
-      fadeProgress = Math.max(0, Math.min(1, fadeProgress));
-    } else if (scrollProgress > elementFadeEnd) {
-      fadeProgress = 1;
-    }
-    
-    // In mobile mode, use CSS classes for smooth transitions
-    if (fadeProgress > 0.1) {
-      element.classList.add('fade-in');
-    } else {
-      element.classList.remove('fade-in');
-    }
-    
-    return;
-  }
-  
-  // Original logic for horizontal mode
-  // Special handling for buttons - keep them visible once they appear
-  if (selector === '.about-nav-buttons') {
-    // For buttons, once they fade in, keep them visible
-    const fadeStartPoint = windowHeight * 0.9; // Start fading when 90% down viewport
-    const fadeEndPoint = windowHeight * 0.8;   // Fully visible when 80% down viewport
-    
-    let fadeProgress = 0;
-    
-    if (elementRect.top <= fadeStartPoint) {
-      if (elementRect.top >= fadeEndPoint) {
-        // Element is in the fade zone
-        fadeProgress = (fadeStartPoint - elementRect.top) / (fadeStartPoint - fadeEndPoint);
-        fadeProgress = Math.max(0, Math.min(1, fadeProgress));
-      } else {
-        // Element is past fade zone - keep fully visible
-        fadeProgress = 1;
-      }
-    }
-    
-    // Apply fade effect
-    element.style.opacity = fadeProgress;
-    
-    if (fadeProgress > 0) {
-      element.classList.add('fade-in');
-    }
-    return;
-  }
-  
-  // Regular fade-in for other elements - longer and more gradual
-  const fadeStartPoint = windowHeight * 1.2; // Start fading much earlier when element is still below viewport
-  const fadeEndPoint = windowHeight * 0.6;   // Fully visible when element is at their sticky position
-  
-  let fadeProgress = 0;
-  
-  if (elementRect.top <= fadeStartPoint && elementRect.top >= fadeEndPoint) {
-    // Element is in the fade zone - much longer fade distance
-    fadeProgress = (fadeStartPoint - elementRect.top) / (fadeStartPoint - fadeEndPoint);
-    fadeProgress = Math.max(0, Math.min(1, fadeProgress));
-  } else if (elementRect.top < fadeEndPoint) {
-    // Element is past fade zone - fully visible
-    fadeProgress = 1;
-  }
-
-  // Apply fade effect
-  element.style.opacity = fadeProgress;
-
-  if (fadeProgress > 0) {
-    element.classList.add('fade-in');
-  } else {
-    element.classList.remove('fade-in');
-  }
-}
 
 // Track scroll direction
 let lastScrollY = window.scrollY;
@@ -668,47 +547,192 @@ function handleGreyBoxFadeIn() {
   }
 }
 
-// Handle fade-in for non-education elements only
+// Handle fade-in for about me elements
 function handleAllFadeIns() {
-  // Use handleElementFadeIn for all about me elements consistently
-  handleElementFadeIn('.about-hi-sticky');
-  handleElementFadeIn('.about-hi-photo');
-  handleElementFadeIn('.about-hi-subtitle');
-  handleElementFadeIn('#para-1');
-  handleElementFadeIn('#para-2');
-  handleElementFadeIn('.about-nav-buttons');
-  handleGreyBoxFadeIn(); // Add grey box fade-in
-  handleRightEducationFadeIn(); // Add right education container fade-in
-}
-
-// Handle about section fade out over education section
-function handleAboutSectionFade() {
-  const aboutContainer = document.querySelector('#about .container');
-  const educationSection = document.getElementById('experience');
+  const windowWidth = window.innerWidth;
+  const isVerticalMode = windowWidth <= 964;
   
-  if (!aboutContainer || !educationSection) return;
-  
-  const scrollY = window.scrollY;
-  const aboutRect = aboutContainer.getBoundingClientRect();
-  const aboutEnd = scrollY + aboutRect.top + aboutRect.height;
-  
-  // Start fading at the very end of the about section
-  const fadeStartPoint = aboutEnd - 100; // Start fade 100px before end
-  const fadeEndPoint = aboutEnd; // Complete fade at end
-  
-  let fadeProgress = 0;
-  
-  if (scrollY >= fadeStartPoint && scrollY <= fadeEndPoint) {
-    // Quick fade - calculate progress over small distance
-    fadeProgress = (scrollY - fadeStartPoint) / (fadeEndPoint - fadeStartPoint);
-    fadeProgress = Math.max(0, Math.min(1, fadeProgress));
-  } else if (scrollY > fadeEndPoint) {
-    fadeProgress = 1; // Fully faded
+  if (isVerticalMode) {
+    handleMobileFadeIn();
+  } else {
+    handleDesktopFadeIn();
   }
   
-  // Apply quick fade effect to about section
-  aboutContainer.style.opacity = 1 - fadeProgress;
+  handleGreyBoxFadeIn();
+  handleRightEducationFadeIn();
 }
+
+// Desktop fade-in logic with scroll-dependent opacity
+function handleDesktopFadeIn() {
+  // Desktop mode sticky positions: .about-hi-sticky(20vh), .about-hi-photo(10vh), .about-hi-subtitle(35vh), #para-1(40vh), #para-2(50vh), .about-nav-buttons(65vh)
+  const elements = [
+    { selector: '.about-hi-sticky', startOffset: .7, endOffset: 0.5, fadeOutOffset: -0.1 }, // 100% - 20vh = 80vh
+    { selector: '.about-hi-photo', startOffset: 0.62, endOffset: 0.5 }, // 100% - 10vh = 90vh  
+    { selector: '.about-hi-subtitle', startOffset: 0.73, endOffset: 0.46 }, // 100% - 35vh = 65vh
+    { selector: '#para-1', startOffset: 0.8, endOffset: 0.7 }, // 100% - 40vh = 60vh
+    { selector: '#para-2', startOffset: 0.85, endOffset: 0.6 }, // 100% - 50vh = 50vh
+    { selector: '.about-nav-buttons', startOffset: 0.9, endOffset: 0.7 } // 100% - 65vh = 35vh
+  ];
+  
+  const scrollY = window.scrollY;
+  const windowHeight = window.innerHeight;
+  
+  elements.forEach(({ selector, startOffset, endOffset, fadeOutOffset }) => {
+    const element = document.querySelector(selector);
+    if (!element) return;
+    
+    const rect = element.getBoundingClientRect();
+    const elementTop = rect.top + scrollY;
+    const elementCenter = elementTop + rect.height / 2;
+    
+    // Calculate fade based on element position relative to viewport
+    const fadeStartPoint = scrollY + (windowHeight * startOffset);
+    const fadeEndPoint = scrollY + (windowHeight * endOffset);
+    
+    let opacity = 0;
+    
+    // Handle fade-out for elements that have fadeOutOffset (like HELLO I AM THOMAS)
+    if (fadeOutOffset !== undefined) {
+      const fadeOutPoint = scrollY + (windowHeight * fadeOutOffset);
+      
+      if (elementCenter <= fadeOutPoint) {
+        // Element is past fade-out point - calculate fade-out
+        const fadeOutDistance = windowHeight * 0.3; // 30% of viewport for fade-out zone
+        const distancePastFadeOut = fadeOutPoint - elementCenter;
+        opacity = Math.max(0, 1 - (distancePastFadeOut / fadeOutDistance));
+      } else if (elementCenter <= fadeEndPoint) {
+        // Element is in visible zone - fully visible
+        opacity = 1;
+      } else if (elementCenter >= fadeStartPoint) {
+        // Element is before fade start point - invisible
+        opacity = 0;
+      } else {
+        // Element is in fade-in zone - calculate progressive opacity
+        const fadeDistance = fadeStartPoint - fadeEndPoint;
+        const currentDistance = elementCenter - fadeEndPoint;
+        opacity = Math.max(0, Math.min(1, 1 - (currentDistance / fadeDistance)));
+      }
+    } else {
+      // Standard fade-in only logic for other elements
+      if (elementCenter <= fadeEndPoint) {
+        opacity = 1;
+      } else if (elementCenter >= fadeStartPoint) {
+        opacity = 0;
+      } else {
+        const fadeDistance = fadeStartPoint - fadeEndPoint;
+        const currentDistance = elementCenter - fadeEndPoint;
+        opacity = Math.max(0, Math.min(1, 1 - (currentDistance / fadeDistance)));
+      }
+    }
+    
+    // Apply the calculated opacity directly - no CSS transitions, pure scroll control
+    element.style.opacity = opacity;
+    element.style.setProperty('opacity', opacity, 'important'); // Force with !important
+  });
+}
+
+// Scroll-dependent mobile fade-in function
+function handleMobileFadeIn() {
+  // Mobile mode sticky positions: .about-hi-sticky(12vh), .about-hi-photo(-3.5vh), .about-hi-subtitle(54vh), #para-1(58vh), #para-2(66vh), .about-nav-buttons(78vh)
+  const elements = [
+    { selector: '.about-hi-sticky', startOffset: .8, endOffset: 0.4 }, // No fade-out, stays visible
+    { selector: '.about-hi-photo', startOffset: 0.7, endOffset: .5 }, // 100% - (-3.5vh) = 103.5vh  
+    { selector: '.about-hi-subtitle', startOffset: 0.8, endOffset: 0.6 }, // 100% - 54vh = 46vh
+    { selector: '#para-1', startOffset: .86, endOffset: 0.78 }, // 100% - 58vh = 42vh
+    { selector: '#para-2', startOffset: .86, endOffset: 0.70 }, // 100% - 66vh = 34vh
+    { selector: '.about-nav-buttons', startOffset: .9, endOffset: 0.83 } // 100% - 78vh = 22vh
+  ];
+  
+  const scrollY = window.scrollY;
+  const windowHeight = window.innerHeight;
+  
+  elements.forEach(({ selector, startOffset, endOffset, fadeOutOffset }) => {
+    const element = document.querySelector(selector);
+    if (!element) return;
+    
+    const rect = element.getBoundingClientRect();
+    const elementTop = rect.top + scrollY;
+    const elementCenter = elementTop + rect.height / 2;
+    
+    // Calculate fade based on element position relative to viewport
+    const fadeStartPoint = scrollY + (windowHeight * startOffset); // Start fading when element is at 90% viewport
+    const fadeEndPoint = scrollY + (windowHeight * endOffset);     // Fully visible when element is at 50% viewport
+    
+    let opacity = 0;
+    
+    // Handle fade-out for elements that have fadeOutOffset (like HELLO I AM THOMAS)
+    if (fadeOutOffset !== undefined) {
+      const fadeOutPoint = scrollY + (windowHeight * fadeOutOffset); // Fade out when element reaches -20% viewport
+      
+      if (elementCenter <= fadeOutPoint) {
+        // Element is past fade-out point - calculate fade-out
+        const fadeOutDistance = windowHeight * 0.3; // 30% of viewport for fade-out zone
+        const distancePastFadeOut = fadeOutPoint - elementCenter;
+        opacity = Math.max(0, 1 - (distancePastFadeOut / fadeOutDistance));
+      } else if (elementCenter <= fadeEndPoint) {
+        // Element is in visible zone - fully visible
+        opacity = 1;
+      } else if (elementCenter >= fadeStartPoint) {
+        // Element is before fade start point - invisible
+        opacity = 0;
+      } else {
+        // Element is in fade-in zone - calculate progressive opacity
+        const fadeDistance = fadeStartPoint - fadeEndPoint;
+        const currentDistance = elementCenter - fadeEndPoint;
+        opacity = Math.max(0, Math.min(1, 1 - (currentDistance / fadeDistance)));
+      }
+    } else {
+      // Standard fade-in only logic for other elements
+      if (elementCenter <= fadeEndPoint) {
+        opacity = 1;
+      } else if (elementCenter >= fadeStartPoint) {
+        opacity = 0;
+      } else {
+        const fadeDistance = fadeStartPoint - fadeEndPoint;
+        const currentDistance = elementCenter - fadeEndPoint;
+        opacity = Math.max(0, Math.min(1, 1 - (currentDistance / fadeDistance)));
+      }
+    }
+    
+    // Apply the calculated opacity directly - no CSS transitions, pure scroll control
+    element.style.opacity = opacity;
+    element.style.setProperty('opacity', opacity, 'important'); // Force with !important
+    
+    // Debug log for HELLO I AM THOMAS element
+    if (selector === '.about-hi-sticky') {
+      console.log(`HELLO I AM THOMAS: opacity=${opacity}, actual style=${element.style.opacity}, computed=${window.getComputedStyle(element).opacity}`);
+    }
+  });
+}
+
+// DISABLED - This function was interfering with individual element fade-ins
+// function handleAboutSectionFade() {
+//   const aboutContainer = document.querySelector('#about .container');
+//   const educationSection = document.getElementById('experience');
+//   
+//   if (!aboutContainer || !educationSection) return;
+//   
+//   const scrollY = window.scrollY;
+//   const aboutRect = aboutContainer.getBoundingClientRect();
+//   const aboutEnd = scrollY + aboutRect.top + aboutRect.height;
+//   
+//   // Start fading at the very end of the about section
+//   const fadeStartPoint = aboutEnd - 100; // Start fade 100px before end
+//   const fadeEndPoint = aboutEnd; // Complete fade at end
+//   
+//   let fadeProgress = 0;
+//   
+//   if (scrollY >= fadeStartPoint && scrollY <= fadeEndPoint) {
+//     // Quick fade - calculate progress over small distance
+//     fadeProgress = (scrollY - fadeStartPoint) / (fadeEndPoint - fadeStartPoint);
+//     fadeProgress = Math.max(0, Math.min(1, fadeProgress));
+//   } else if (scrollY > fadeEndPoint) {
+//     fadeProgress = 1; // Fully faded
+//   }
+//   
+//   // Apply quick fade effect to about section
+//   aboutContainer.style.opacity = 1 - fadeProgress;
+// }
 
 // Continuously update Thomas Ou section position to track "HELLO. I AM THOMAS" element
 function updateThomasOuPosition() {
@@ -744,18 +768,20 @@ function handleScreenFade() {
   const aboutHeight = aboutRect.height;
   const windowHeight = window.innerHeight;
   
-  // Show grey overlay sooner through the about section
-  const overlayStartPoint = aboutStart + (aboutHeight * 0.77); // Start at 77% through about section
-  
-  // Different overlay fade-out points for mobile vs desktop
+  // Different overlay start and fade-out points for mobile vs desktop
   const windowWidth = window.innerWidth;
   const isMobileMode = windowWidth <= 964;
+  
+  // Show grey overlay at different points for mobile vs desktop
+  const overlayStartPoint = isMobileMode 
+    ? aboutStart + (aboutHeight * 0.52) // Start at 52% through about section for mobile
+    : aboutStart + (aboutHeight * 0.7); // Start at 30% through about section for desktop
   const overlayEndPoint = isMobileMode 
-    ? aboutStart + aboutHeight + (windowHeight * 0.45) // Fade out later in mobile mode
-    : aboutStart + aboutHeight + (windowHeight * 0.4); // Fade out much sooner in desktop mode
+    ? aboutStart + aboutHeight + (windowHeight * 1) // Fade out much later in mobile mode
+    : aboutStart + aboutHeight + (windowHeight * .9); // Fade out much sooner in desktop mode
   
   // Mobile elements fade out earlier than the overlay
-  const mobileElementsFadeOutPoint = aboutStart + (aboutHeight * 0.82); // Fade out at 80% through about section
+  const mobileElementsFadeOutPoint = aboutStart + (aboutHeight * 0.73); // Fade out at 60% through about section
   
   if (scrollY >= overlayStartPoint && scrollY <= overlayEndPoint) {
     // Show full grey background
@@ -919,11 +945,9 @@ function handleScreenFade() {
 
 // Add scroll listener for all fade-ins
 window.addEventListener('scroll', handleAllFadeIns);
-window.addEventListener('scroll', handleAboutSectionFade);
 window.addEventListener('scroll', handleScreenFade);
 window.addEventListener('scroll', updateThomasOuPosition);
 window.addEventListener('DOMContentLoaded', handleAllFadeIns);
-window.addEventListener('DOMContentLoaded', handleAboutSectionFade);
 window.addEventListener('DOMContentLoaded', handleScreenFade);
 window.addEventListener('DOMContentLoaded', updateThomasOuPosition);
 

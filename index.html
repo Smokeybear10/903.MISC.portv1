@@ -87,7 +87,7 @@
   </section>
 
   <!-- HERO SPACER - Creates scroll space -->
-  <div class="hero-spacer">
+  <div class="hero-spacer" style="height: 100vh; scroll-snap-align: start;">
   </div>
 
 
@@ -98,7 +98,7 @@
     
     <div class="about-container">
       <!-- Initial spacer -->
-      <div style="height: 200vh;"></div>
+      <div style="height: 50vh;"></div>
       
       
       <!-- Hello section outside container - appears first -->
@@ -109,7 +109,7 @@
       </div>
       
       <!-- Spacer to create timing delay -->
-      <div style="height: 100vh;"></div>
+      <div style="height: 0vh;"></div>
       
       <!-- Two-column layout -->
       <div class="about-two-column">
@@ -117,26 +117,26 @@
         <div class="about-left-half">
           
           <!-- Spacer to delay subtitle -->
-          <div style="height: 100vh;"></div>
+          <div class="about-spacer" style="height: 80vh;"></div>
           
           <div class="about-hi-subtitle">A Bit About Me</div>
           
           <!-- Spacer to delay descriptions -->
-          <div style="height: 100vh;"></div>
+          <div class="about-spacer" style="height: 30vh;"></div>
           
           <div class="about-description-paragraph" id="para-1">
             I'm just a guy with two passions: coffee and poker. Thankfully, I've been able to turn the latter of the two into a career path (still working on the first one).
           </div>
           
           <!-- Spacer between paragraph blocks -->
-          <div style="height: 60vh;"></div>
+          <div style="height: 10vh;"></div>
           
           <div class="about-description-paragraph" id="para-2">
             From machine learning to quantitative finance to scalable backend infrastructure, I've been able to use my love for game theory and probabilistic thinking to create tools that learn, adapt, and perform.
           </div>
           
           <!-- Spacer before buttons -->
-          <div style="height: 60vh;"></div>
+          <div style="height: 10vh;"></div>
           
           <div class="about-nav-buttons">
             <button class="about-nav-btn">Resume</button>
@@ -229,7 +229,7 @@
   </div>
 
   <!-- EDUCATION SECTION -->
-  <section id="education" style="background: transparent; padding: 2rem 0 0 0; margin-top: -140vh;">
+  <section id="education" style="background: transparent; padding: 2rem 0 0 0; margin-top: -60vh;">
     
     <!-- Mobile Header (only visible on mobile) -->
     <div class="education-mobile-header" style="display: none;">
@@ -524,11 +524,11 @@
         minWidth: 200.00,
         scale: 1.00,
         scaleMobile: 1.00,
-        color: 0xF97316,
-        shininess: 30.00,
-        waveHeight: 20.00,
-        waveSpeed: 1.00,
-        zoom: 0.75
+        color: 0x3D3C3A, // Darker, more muted version of your bg color
+        shininess: 15.00, // Reduced shininess for subtler look
+        waveHeight: 12.00, // Smaller waves for more elegant look
+        waveSpeed: 0.6, // Slower, more calming movement
+        zoom: 0.85 // Slightly closer zoom for better detail
       });
       
       // VANTA.WAVES for projects section
@@ -541,11 +541,49 @@
         minWidth: 200.00,
         scale: 1.00,
         scaleMobile: 1.00,
-        color: 0xF97316,
-        shininess: 30.00,
-        waveHeight: 15.00,
-        waveSpeed: 0.80,
-        zoom: 0.80
+        color: 0x4A453F, // Slightly lighter shade for variation
+        shininess: 12.00, // Even more subtle shininess
+        waveHeight: 10.00, // Smaller waves for cleaner look
+        waveSpeed: 0.5, // Slower, more peaceful movement
+        zoom: 0.90 // Better detail view
+      });
+      
+      // Simple snap-after-stop scrolling - no preventDefault to avoid jankiness
+      let snapTimer = null;
+      
+      window.addEventListener('wheel', (e) => {
+        // Clear any pending snap
+        if (snapTimer) {
+          clearTimeout(snapTimer);
+        }
+        
+        // Set up a snap after scrolling stops
+        snapTimer = setTimeout(() => {
+          const currentScroll = window.scrollY;
+          const viewportHeight = window.innerHeight;
+          let targetScroll = null;
+          
+          // Define snap zones
+          if (currentScroll < viewportHeight * 1.1) {
+            targetScroll = viewportHeight * 1.1; // Snap to about section
+          } else if (currentScroll >= viewportHeight * 1.1 && currentScroll < viewportHeight * 1.63) {
+            targetScroll = viewportHeight * 1.63; // Snap to next zone
+          } else if (currentScroll >= viewportHeight * 1.63 && currentScroll < viewportHeight * 1.85) {
+            targetScroll = viewportHeight * 1.85; // Snap to next zone
+          } else if (currentScroll >= viewportHeight * 1.85 && currentScroll < viewportHeight * 2.2) {
+            targetScroll = viewportHeight * 2.2; // Snap to next zone
+          } else if (currentScroll >= viewportHeight * 2.2) {
+            targetScroll = viewportHeight * 3; // Snap to final zone
+          }
+          
+          // Execute smooth snap if we have a target and we're not already close
+          if (targetScroll !== null && Math.abs(targetScroll - currentScroll) > 50) {
+            window.scrollTo({
+              top: targetScroll,
+              behavior: 'smooth'
+            });
+          }
+        }, 50); // Wait 200ms after last scroll event
       });
       
       // Add scroll listener to update Vanta parameters
@@ -635,8 +673,8 @@
         const heroNameStack = document.querySelector('.hero-name-stack');
         const heroNameFrontStack = document.querySelector('.hero-name-front-stack');
         if (heroNameStack && heroNameFrontStack) {
-          const scrollFadeStart = windowHeight * 0.3; // Start fading after 30% of viewport scroll
-          const scrollFadeEnd = windowHeight * 1.5;   // Fully faded after 150% of viewport scroll
+          const scrollFadeStart = windowHeight * 0.1; // Start fading after 10% of viewport scroll (faster)
+          const scrollFadeEnd = windowHeight * 0.4;   // Fully faded after 40% of viewport scroll (much faster)
           
           let nameOpacity = 1;
           if (scrollY >= scrollFadeStart) {

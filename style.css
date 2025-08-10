@@ -27,6 +27,7 @@ html, body, #hero, .hero-spacer, .hero-name-stack, .hero-name-front-stack,
 
 html {
   background: var(--bg-color) !important;
+  scroll-behavior: smooth;
 }
 
 /* BASE */
@@ -50,7 +51,7 @@ body {
   display: flex;
   position: relative;
   overflow: visible;
-  min-height: 500vh;
+  min-height: 150vh;
   justify-content: center;
   align-items: flex-start;
   border: 2px solid transparent;
@@ -66,24 +67,15 @@ body {
   display: none;
 }
 
-/* About me elements start invisible and fade in on scroll */
-body .about-hi-sticky:not(.fade-in),
-body .about-hi-photo:not(.fade-in),
-body .about-hi-subtitle:not(.fade-in),
-body #para-1:not(.fade-in),
-body #para-2:not(.fade-in),
-body .about-nav-buttons:not(.fade-in) {
-  opacity: 0 !important;
-  transition: opacity 0.6s ease-in-out;
-}
-
-.about-hi-sticky.fade-in,
-.about-hi-photo.fade-in,
-.about-hi-subtitle.fade-in,
-#para-1.fade-in,
-#para-2.fade-in,
-.about-nav-buttons.fade-in {
-  opacity: 1 !important;
+/* About me elements controlled by JavaScript scroll position */
+body .about-hi-sticky,
+body .about-hi-photo,
+body .about-hi-subtitle,
+body #para-1,
+body #para-2,
+body .about-nav-buttons {
+  opacity: 0;
+  /* No transition - opacity controlled directly by scroll position */
 }
 
 
@@ -109,7 +101,7 @@ body .about-nav-buttons:not(.fade-in) {
   .about-two-column .about-left-half {
     width: 100% !important;
     padding: 0 !important;
-    min-height: 500vh !important;
+    min-height: 150vh !important;
     order: 1;
     position: relative;
   }
@@ -440,6 +432,11 @@ body .about-nav-buttons:not(.fade-in) {
     transform: translateY(-50%) !important;
     z-index: 1001 !important;
   }
+  
+  /* Hide spacers in vertical mode */
+  .about-spacer {
+    display: none !important;
+  }
 }
 
 /* Hide duplicate social icons and mobile elements in horizontal mode */
@@ -448,6 +445,11 @@ body .about-nav-buttons:not(.fade-in) {
   .mobile-summary-container,
   .mobile-social-link {
     display: none !important;
+  }
+  
+  /* Show spacers in horizontal mode */
+  .about-spacer {
+    display: block !important;
   }
 }
 
@@ -549,6 +551,7 @@ button:hover, .btn:hover {
   justify-content: center;
   overflow: hidden;
   z-index: 1;
+  scroll-snap-align: start;
 }
 
 /* Hero container - matches about me section width */
@@ -713,14 +716,17 @@ button:hover, .btn:hover {
 /* SECTION STYLES */
 #about, #summary, #skills, #experience, #leadership, #projects, #contact {
   padding: 4rem 2rem;
+  scroll-snap-align: start;
 }
 
 /* ABOUT SECTION */
 #about {
   background: transparent !important;
-  min-height: 400vh;
+  min-height: 100vh;
   position: relative;
   z-index: 2;
+  scroll-snap-align: start;
+  padding-top: 0;
 }
 
 .about-content {
@@ -1011,16 +1017,10 @@ footer {
   transform: scaleY(1.7);
   margin: 0;
   text-align: left;
-  opacity: 0;
-  transition: none;
+  /* opacity removed - controlled by JavaScript */
   width: fit-content;
   margin-left: max(.5vw, calc(50% - 600px));
   padding-right: 0;
-}
-
-.about-hi-sticky.about-hi-sticky-visible {
-  opacity: 1;
-  pointer-events: auto;
 }
 
 .hello-i-am {
@@ -2650,52 +2650,192 @@ footer {
 #projects {
   background: transparent !important;
   color: var(--text-color);
-  padding: 4rem 0;
+  padding: 6rem 0 4rem 0;
   min-height: 100vh;
   position: relative;
   z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#projects .section-title h2,
-#my-stack .section-title h2 {
-  color: #000000;
-  background: white;
-  padding: 1rem;
-  border: 2px solid red;
+#projects .container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
-#my-stack {
-  background: white !important;
-  border: 5px solid red !important;
-  position: relative !important;
-  z-index: 9999 !important;
-  padding: 2rem !important;
-  min-height: 50vh !important;
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+#projects .section-title {
+  text-align: center;
+  margin-bottom: 4rem;
 }
 
-#projects .stack-heading,
-#my-stack .stack-heading {
-  color: #000000;
+#projects .section-title h2 {
+  color: var(--text-color);
+  font-family: var(--heading-font);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0;
+  position: relative;
+}
+
+#projects .section-title h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-primary), #e67e22);
+  border-radius: 2px;
+}
+
+/* Stack Section Layout */
+.stack-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.stack-heading {
+  color: var(--text-color);
+  font-family: var(--heading-font);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+/* Creative Hexagonal Stack Layout */
+.stack-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 0;
+  gap: 1rem;
+  position: relative;
+}
+
+/* Staggered layout with different sizes */
+.stack-grid .tech:nth-child(1),
+.stack-grid .tech:nth-child(5),
+.stack-grid .tech:nth-child(9) {
+  transform: scale(1.1);
+  z-index: 2;
+}
+
+.stack-grid .tech:nth-child(3),
+.stack-grid .tech:nth-child(7),
+.stack-grid .tech:nth-child(11) {
+  transform: scale(0.9) rotate(2deg);
+}
+
+.stack-grid .tech:nth-child(2),
+.stack-grid .tech:nth-child(6),
+.stack-grid .tech:nth-child(10) {
+  transform: rotate(-2deg);
+}
+
+.stack-grid .tech:nth-child(4),
+.stack-grid .tech:nth-child(8),
+.stack-grid .tech:nth-child(12) {
+  transform: rotate(1deg);
+}
+
+@media (max-width: 768px) {
+  .stack-grid {
+    gap: 0.8rem;
+    padding: 1.5rem 0;
+  }
+  
+  /* Reset transforms on mobile for better readability */
+  .stack-grid .tech {
+    transform: none !important;
+  }
 }
 
 #projects .tech,
 #my-stack .tech {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  color: #000000;
-  border: 2px solid #dee2e6;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+  color: var(--text-color);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  border-radius: 20px;
+  padding: 1rem 1.5rem;
+  font-family: var(--font-family);
+  font-size: 0.85rem;
+  font-weight: 600;
+  backdrop-filter: blur(15px);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  min-width: 120px;
+  white-space: nowrap;
+}
+
+/* Add subtle gradient overlay */
+#projects .tech::before,
+#my-stack .tech::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.1), transparent);
+  transition: left 0.6s;
+}
+
+#projects .tech:hover::before,
+#my-stack .tech:hover::before {
+  left: 100%;
 }
 
 #projects .tech:hover,
 #my-stack .tech:hover {
-  background: linear-gradient(135deg, var(--accent-primary) 0%, #0066cc 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--accent-primary) 0%, #e67e22 100%);
+  color: #ffffff;
   border-color: var(--accent-primary);
-  box-shadow: 0 4px 16px rgba(249, 115, 22, 0.3);
-  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 40px rgba(249, 115, 22, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-6px) scale(1.05) rotate(0deg) !important;
+  backdrop-filter: blur(20px);
+}
+
+/* Add pulse animation for featured items */
+.stack-grid .tech:nth-child(1),
+.stack-grid .tech:nth-child(5),
+.stack-grid .tech:nth-child(9) {
+  animation: subtlePulse 3s infinite;
+}
+
+@keyframes subtlePulse {
+  0%, 100% { 
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  50% { 
+    box-shadow: 0 8px 32px rgba(249, 115, 22, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
 }
 
 /* Grey section box and screen-width grey box */
