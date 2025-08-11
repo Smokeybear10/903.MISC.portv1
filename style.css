@@ -1,5 +1,5 @@
 :root {
-  --bg-color: #262423;
+  --bg-color: #000000;
   --text-color: #ffffff;
   --text-secondary: #f5f5f5;
   --accent-primary: #F97316;
@@ -27,7 +27,9 @@ html, body, #hero, .hero-spacer, .hero-name-stack, .hero-name-front-stack,
 
 html {
   background: var(--bg-color) !important;
-  scroll-behavior: smooth;
+  /* Enhanced floaty scrolling */
+  -webkit-overflow-scrolling: touch;
+  scroll-padding: 0;
 }
 
 /* BASE */
@@ -418,7 +420,7 @@ body .about-nav-buttons {
     left: 0 !important;
     width: 100vw !important;
     height: 8vh !important;
-    background: #262423 !important;
+    background: #000000 !important;
     z-index: 999 !important;
     pointer-events: auto !important;
   }
@@ -450,6 +452,11 @@ body .about-nav-buttons {
   /* Show spacers in horizontal mode */
   .about-spacer {
     display: block !important;
+  }
+  
+  /* Add space between about and education in horizontal mode */
+  #education {
+    margin-top: -60vh !important;
   }
 }
 
@@ -489,7 +496,7 @@ body .about-nav-buttons {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: #262423;
+  background: #000000;
   opacity: 0;
   z-index: 5;
   pointer-events: none;
@@ -551,7 +558,6 @@ button:hover, .btn:hover {
   justify-content: center;
   overflow: hidden;
   z-index: 1;
-  scroll-snap-align: start;
 }
 
 /* Hero container - matches about me section width */
@@ -680,7 +686,7 @@ button:hover, .btn:hover {
   font-family: 'Courier New', 'Monaco', 'Lucida Console', monospace;
   font-weight: 400;
   font-size: min(6rem, 6vw);
-  color: #262423;
+  color: #000000;
   background: none;
   margin: 0;
   padding: 0;
@@ -716,7 +722,6 @@ button:hover, .btn:hover {
 /* SECTION STYLES */
 #about, #summary, #skills, #experience, #leadership, #projects, #contact {
   padding: 4rem 2rem;
-  scroll-snap-align: start;
 }
 
 /* ABOUT SECTION */
@@ -725,7 +730,6 @@ button:hover, .btn:hover {
   min-height: 100vh;
   position: relative;
   z-index: 2;
-  scroll-snap-align: start;
   padding-top: 0;
 }
 
@@ -769,12 +773,46 @@ button:hover, .btn:hover {
 /* FOOTER */
 footer {
   text-align: center;
-  padding: 3rem 2rem;
-  background: #0a0a0a;
+  padding: 4rem 2rem 3rem;
+  background: #000000;
   color: #888;
   border-top: 1px solid rgba(255,255,255,0.05);
   font-size: 0.9rem;
   font-weight: 400;
+  position: relative;
+  z-index: 10;
+  margin-top: 0;
+}
+
+.footer-content {
+  margin-bottom: 2rem;
+}
+
+.footer-cta {
+  margin-bottom: 2rem;
+}
+
+.footer-cta h3 {
+  font-family: 'Anton', 'Montserrat', 'Inter', Arial, sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  color: #ffffff;
+  margin-bottom: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.email-link {
+  color: #F97316;
+  text-decoration: none;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.email-link:hover {
+  color: #ffffff;
+  border-bottom-color: #F97316;
 }
 
 
@@ -953,7 +991,7 @@ footer {
   top: 100%;
   width: 2px;
   height: calc(100% + 2.5rem);
-  background: #d0d0d0;
+  background: #000000;
   transform: translateX(-50%);
   z-index: 1;
 }
@@ -1008,11 +1046,11 @@ footer {
 .about-hi-sticky {
   position: sticky !important;
   top: 20vh !important;
-  z-index: 10;
+  z-index: 100 !important;
   font-family: 'Anton', 'Montserrat', 'Inter', Arial, sans-serif;
   font-size: clamp(1rem, 3.5vw, 2.7rem);
   font-weight: 900;
-  color: #262423;
+  color: #000000;
   line-height: 1.05;
   transform: scaleY(1.7);
   margin: 0;
@@ -1021,14 +1059,15 @@ footer {
   width: fit-content;
   margin-left: max(.5vw, calc(50% - 600px));
   padding-right: 0;
+  align-self: flex-start !important;
 }
 
 .hello-i-am {
-  color: #262423;
+  color: #000000;
 }
 
 .thomas-name {
-  color: #262423;
+  color: #000000;
   transition: color 0.8s ease;
 }
 
@@ -1058,7 +1097,7 @@ footer {
   font-size: clamp(1rem, 3vw, 1.2rem);
   font-family: 'Anton', 'Montserrat', 'Inter', Arial, sans-serif;
   font-weight: 400;
-  color: #262423;
+  color: #000000;
   margin: 1rem 0;
   text-align: right;
   margin-left: 0;
@@ -1117,7 +1156,7 @@ footer {
   font-size: clamp(0rem, 1.3vw, 1rem);
   font-weight: 400;
   line-height: 1.6;
-  color: #262423;
+  color: #000000;
   display: block;
   text-align: justify;
   opacity: 0;
@@ -1172,7 +1211,7 @@ footer {
 
 .about-nav-btn {
   background: transparent;
-  border: 2px solid #262423;
+  border: 2px solid #000000;
   width: clamp(80px, calc((100% - 1.5rem) / 4), 110px);
   height: clamp(80px, calc((100% - 1.5rem) / 4), 110px);
   max-width: 110px;
@@ -1180,7 +1219,7 @@ footer {
   font-family: 'Fira Mono', 'Consolas', 'Monaco', monospace;
   font-size: clamp(0.8rem, 1vw, 0.95rem);
   font-weight: 500;
-  color: #262423;
+  color: #000000;
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
@@ -1839,7 +1878,7 @@ footer {
 }
 
 #experience {
-  background-color: #262423; /* Grey background for education section */
+  background-color: #000000; /* Black background for education section */
   color: #ffffff; /* White text for contrast */
 }
 
@@ -2428,7 +2467,7 @@ footer {
 }
 
 .experience-modal-content {
-  background: #262423;
+  background: #000000;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   padding: 2rem;
@@ -2512,7 +2551,7 @@ footer {
 }
 
 .research-modal-content {
-  background: #262423;
+  background: #000000;
   border-radius: 12px;
   padding: 2rem;
   max-width: 600px;
@@ -2649,20 +2688,31 @@ footer {
 /* PROJECTS SECTION */
 #projects {
   background: transparent !important;
-  color: var(--text-color);
+  color: #000000;
   padding: 6rem 0 4rem 0;
   min-height: 100vh;
   position: relative;
-  z-index: 10;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 #projects .container {
+  width: 90vw;
   max-width: 1000px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+}
+
+/* Match about me container size in vertical mode */
+@media (max-width: 964px) {
+  #projects .container {
+    width: 85vw !important;
+    max-width: 550px !important;
+  }
 }
 
 #projects .section-title {
@@ -2671,10 +2721,12 @@ footer {
 }
 
 #projects .section-title h2 {
-  color: var(--text-color);
-  font-family: var(--heading-font);
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 700;
+  color: #000000;
+  font-family: 'Anton', 'Montserrat', 'Inter', Arial, sans-serif !important;
+  font-size: clamp(1rem, 3.5vw, 2.7rem) !important;
+  font-weight: 900 !important;
+  line-height: 1.05 !important;
+  transform: scaleY(1.7) !important;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin: 0;
@@ -2700,6 +2752,82 @@ footer {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 3rem;
+}
+
+/* Horizontal layout for desktop - My Stack title on top */
+@media (min-width: 965px) {
+  .stack-side {
+    display: flex;
+    flex-direction: column;
+    gap:  -3rem;
+  }
+  
+  .stack-side h2 {
+    writing-mode: initial;
+    text-orientation: initial;
+    transform: none;
+    margin: 0 0 -3rem 0;
+    text-align: left;
+  }
+  
+  .stack-section {
+    flex-direction: column;
+    gap: 5rem;
+    flex: 1;
+  }
+  
+  .stack-category {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 0;
+  }
+  
+  .stack-category:first-child {
+    margin-top: 1vh;
+  }
+  
+  .stack-category h3 {
+    text-align: left;
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+  
+  .stack-category h3::after {
+    left: 0;
+    transform: none;
+  }
+  
+  .stack-category .stack-grid {
+    justify-content: flex-start;
+    width: 100%;
+  }
+}
+
+/* Stack Category Styling */
+.stack-category {
+  width: 100%;
+  max-width: 800px;
+}
+
+.stack-category h3 {
+  color: var(--accent-primary);
+  font-family: 'Anton', 'Montserrat', 'Inter', Arial, sans-serif !important;
+  font-size: clamp(1rem, 3.5vw, 2.7rem) !important;
+  font-weight: 900 !important;
+  line-height: 1.05 !important;
+  transform: scaleY(1.7) !important;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  position: relative;
+}
+
+.stack-category h3::after {
+  display: none;
 }
 
 .stack-heading {
@@ -2719,11 +2847,15 @@ footer {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  max-width: 1000px;
+  max-width: 600px;
   margin: 0 auto;
-  padding: 2rem 0;
+  padding: 1.5rem 0;
   gap: 1rem;
   position: relative;
+}
+
+.stack-category .stack-grid {
+  max-width: 100%;
 }
 
 /* Staggered layout with different sizes */
@@ -2767,7 +2899,7 @@ footer {
 #projects .tech,
 #my-stack .tech {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
-  color: var(--text-color);
+  color: #000000;
   border: 1px solid rgba(249, 115, 22, 0.3);
   border-radius: 20px;
   padding: 1rem 1.5rem;
@@ -2848,7 +2980,7 @@ footer {
 .screen-width-grey-box {
   width: 100vw;
   height: 100vh;
-  background: #262423;
+  background: #000000;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
@@ -2887,5 +3019,311 @@ footer {
 
 .education-nav-subtitle .nav-item {
   text-align: center !important;
+}
+
+/* Overall Projects Title */
+.overall-title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.overall-title h2 {
+  color: #000000;
+  font-family: 'Anton', 'Montserrat', 'Inter', Arial, sans-serif !important;
+  font-size: clamp(1rem, 3.5vw, 2.7rem) !important;
+  font-weight: 900 !important;
+  line-height: 1.05 !important;
+  transform: scaleY(1.7) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+/* Main Content Layout - Side by Side */
+.main-content-layout {
+  display: flex;
+  gap: 3rem;
+  width: 100%;
+}
+
+.stack-side {
+  flex: 1;
+  position: sticky;
+  top: 8rem;
+  align-self: flex-start;
+}
+
+.projects-side {
+  flex: 1;
+  margin-top: -5rem;
+}
+
+.stack-side h2 {
+  color: #000000;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+  transform: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.25rem 0;
+  text-align: left;
+  position: relative;
+}
+
+
+.projects-side h2 {
+  color: #000000;
+  font-family: 'Anton', 'Montserrat', 'Inter', Arial, sans-serif !important;
+  font-size: clamp(1rem, 3.5vw, 2.7rem) !important;
+  font-weight: 900 !important;
+  line-height: 1.05 !important;
+  transform: scaleY(1.7) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 2rem 0;
+  text-align: center;
+}
+
+/* Mobile layout - stack vertically */
+@media (max-width: 964px) {
+  .main-content-layout {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+
+/* Projects Section */
+.projects-section {
+  margin-top: 4rem;
+  width: 100%;
+}
+
+.projects-section h2 {
+  color: #000000;
+  font-family: 'Anton', 'Montserrat', 'Inter', Arial, sans-serif !important;
+  font-size: clamp(1rem, 3.5vw, 2.7rem) !important;
+  font-weight: 900 !important;
+  line-height: 1.05 !important;
+  transform: scaleY(1.7) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 2rem 0;
+  text-align: center;
+}
+
+.project-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.project-card {
+  background: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.project-card:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.project-header h3 {
+  color: #000000;
+  font-family: var(--heading-font);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  flex: 1;
+  min-width: 250px;
+}
+
+.project-period {
+  color: var(--accent-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: var(--font-family);
+}
+
+.project-description {
+  color: #000000;
+  font-family: var(--font-family);
+  line-height: 1.6;
+}
+
+.project-description p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.project-description ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  list-style-type: disc;
+}
+
+.project-description li {
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  color: #000000;
+}
+
+.project-description li:last-child {
+  margin-bottom: 0;
+}
+
+/* CUSTOM CURSOR */
+#custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 9999;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+  transition: opacity 0.3s ease;
+}
+
+body {
+  cursor: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+body * {
+  cursor: none !important;
+}
+
+@media (max-width: 768px) {
+  #custom-cursor {
+    display: none;
+  }
+  
+  body, body * {
+    cursor: auto !important;
+  }
+}
+
+/* SCROLL PROGRESS INDICATOR */
+.scroll-progress {
+  position: fixed;
+  top: 50%;
+  right: 2%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 100px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  z-index: 100;
+}
+
+.scroll-progress-bar {
+  width: 100%;
+  height: 100%;
+  background: #F97316;
+  border-radius: 3px;
+  transform: translateY(-100%);
+  transition: transform 0.1s ease-out;
+}
+
+/* HIDE NATIVE SCROLLBAR */
+html {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+html::-webkit-scrollbar {
+  width: 0px !important;
+  height: 0px !important;
+  background: transparent !important;
+  display: none !important;
+}
+
+body {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+body::-webkit-scrollbar {
+  width: 0px !important;
+  height: 0px !important;
+  background: transparent !important;
+  display: none !important;
+}
+
+* {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+*::-webkit-scrollbar {
+  width: 0px !important;
+  height: 0px !important;
+  background: transparent !important;
+  display: none !important;
+}
+
+/* STARTUP PRELOADER */
+.startup-preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 9999;
+  display: flex;
+  background: #000000;
+  overflow: hidden;
+}
+
+.preloader-bar {
+  width: 10%;
+  height: 100%;
+  background: #000000;
+  transform: translateY(0);
+  will-change: transform;
+  position: relative;
+}
+
+.startup-name-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  font-family: 'Anton', 'Montserrat', 'Inter', Arial, sans-serif;
+  font-size: clamp(8rem, 20vw, 12rem);
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 1;
+  overflow: hidden;
+  letter-spacing: 0.1em;
+}
+
+.startup-name-text span {
+  display: inline-block;
+  transform: translateY(100%);
+}
+
+/* SLIDE-UP ANIMATION */
+.slide-up {
+  opacity: 0;
+  transform: translateY(40px);
 }
 

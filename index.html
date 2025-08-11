@@ -14,7 +14,7 @@
   <!-- Three.js and Vanta.js for animated backgrounds -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="https://unpkg.com/vanta/dist/vanta.net.min.js"></script>
-  <script src="https://unpkg.com/vanta/dist/vanta.waves.min.js"></script>
+  <script src="https://unpkg.com/vanta/dist/vanta.dots.min.js"></script>
   <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
   <!-- Your scripts -->
@@ -32,21 +32,47 @@
     </div>
   </div>
   
-  <!-- Startup Animation Overlay -->
-  <div id="startup-overlay" class="startup-overlay">
-    <div class="startup-container">
-      <div class="startup-text">
-        <span id="startup-typed-text"></span>
-        <span id="startup-cursor" class="startup-cursor">|</span>
-      </div>
+  <!-- Startup Preloader -->
+  <div id="startup-preloader" class="startup-preloader">
+    <!-- Vertical bars -->
+    <div class="preloader-bar bar-1"></div>
+    <div class="preloader-bar bar-2"></div>
+    <div class="preloader-bar bar-3"></div>
+    <div class="preloader-bar bar-4"></div>
+    <div class="preloader-bar bar-5"></div>
+    <div class="preloader-bar bar-6"></div>
+    <div class="preloader-bar bar-7"></div>
+    <div class="preloader-bar bar-8"></div>
+    <div class="preloader-bar bar-9"></div>
+    <div class="preloader-bar bar-10"></div>
+    
+    <!-- Name animation -->
+    <div class="startup-name-text">
+      <span>T</span>
+      <span>H</span>
+      <span>O</span>
+      <span>M</span>
+      <span>A</span>
+      <span>S</span>
     </div>
   </div>
 
+  <!-- Custom Cursor -->
+  <svg id="custom-cursor" width="27" height="30" viewBox="0 0 27 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20.0995 11.0797L3.72518 1.13204C2.28687 0.258253 0.478228 1.44326 0.704999 3.11083L3.28667 22.0953C3.58333 24.2768 7.33319 24.6415 8.3792 22.7043C9.5038 20.6215 10.8639 18.7382 12.43 17.7122C13.996 16.6861 16.2658 16.1911 18.6244 15.9918C20.8181 15.8063 21.9811 12.2227 20.0995 11.0797Z" fill="#F97316" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+  </svg>
+  
   <!-- Cursor flashlight -->
   <div class="cursor-light"></div>
   
   <!-- Screen fade overlay -->
   <div class="screen-fade-overlay"></div>
+  
+  <!-- Scroll Progress Indicator -->
+  <div class="scroll-progress">
+    <div class="scroll-progress-bar"></div>
+  </div>
+  
 
   <!-- NAV -->
   <header>
@@ -87,7 +113,7 @@
   </section>
 
   <!-- HERO SPACER - Creates scroll space -->
-  <div class="hero-spacer" style="height: 100vh; scroll-snap-align: start;">
+  <div class="hero-spacer" style="height: 0vh;">
   </div>
 
 
@@ -98,7 +124,7 @@
     
     <div class="about-container">
       <!-- Initial spacer -->
-      <div style="height: 50vh;"></div>
+      <div style="height: 70vh;"></div>
       
       
       <!-- Hello section outside container - appears first -->
@@ -117,12 +143,12 @@
         <div class="about-left-half">
           
           <!-- Spacer to delay subtitle -->
-          <div class="about-spacer" style="height: 80vh;"></div>
+          <div class="about-spacer" style="height: 60vh;"></div>
           
           <div class="about-hi-subtitle">A Bit About Me</div>
           
           <!-- Spacer to delay descriptions -->
-          <div class="about-spacer" style="height: 30vh;"></div>
+          <div class="about-spacer" style="height: 10vh;"></div>
           
           <div class="about-description-paragraph" id="para-1">
             I'm just a guy with two passions: coffee and poker. Thankfully, I've been able to turn the latter of the two into a career path (still working on the first one).
@@ -229,7 +255,7 @@
   </div>
 
   <!-- EDUCATION SECTION -->
-  <section id="education" style="background: transparent; padding: 2rem 0 0 0; margin-top: -60vh;">
+  <section id="education" style="background: transparent; padding: 2rem 0 0 0; margin-top: -40vh;">
     
     <!-- Mobile Header (only visible on mobile) -->
     <div class="education-mobile-header" style="display: none;">
@@ -408,36 +434,110 @@
   </section>
 
   <!-- PROJECTS SECTION -->
-  <section id="projects" class="panel" style="margin-top: -170vh;">
+  <section id="projects" class="panel" style="margin-top: -200vh;">
     <div class="container">
-      <!-- Section title -->
-      <div class="section-title">
-        <h2>My Stack</h2>
-      </div>
-      
-      <!-- My Stack Section -->
-      <div class="stack-section">
-        <div class="stack-grid">
-          <div class="tech"><span>JavaScript</span></div>
-          <div class="tech"><span>Python</span></div>
-          <div class="tech"><span>Java</span></div>
-          <div class="tech"><span>C++</span></div>
-          <div class="tech"><span>R</span></div>
-          <div class="tech"><span>SQL</span></div>
-          <div class="tech"><span>React</span></div>
-          <div class="tech"><span>Node.js</span></div>
-          <div class="tech"><span>TypeScript</span></div>
-          <div class="tech"><span>PostgreSQL</span></div>
-          <div class="tech"><span>MongoDB</span></div>
-          <div class="tech"><span>Docker</span></div>
-          <div class="tech"><span>AWS</span></div>
-          <div class="tech"><span>Git</span></div>
-          <div class="tech"><span>TensorFlow</span></div>
-          <div class="tech"><span>Pandas</span></div>
-          <div class="tech"><span>NumPy</span></div>
-          <div class="tech"><span>Scikit-learn</span></div>
-          <div class="tech"><span>GSAP</span></div>
-          <div class="tech"><span>Three.js</span></div>
+      <!-- Main Content Layout -->
+      <div class="main-content-layout">
+        <!-- Left Side: My Stack -->
+        <div class="stack-side">
+          <h2 class="slide-up">My Stack</h2>
+          <div class="stack-section">
+            <div class="stack-category">
+              <h3 class="slide-up">FRONTEND</h3>
+              <div class="stack-grid">
+                <div class="tech slide-up"><span>JavaScript</span></div>
+                <div class="tech slide-up"><span>TypeScript</span></div>
+                <div class="tech slide-up"><span>React</span></div>
+              </div>
+            </div>
+            
+            <div class="stack-category">
+              <h3 class="slide-up">BACKEND</h3>
+              <div class="stack-grid">
+                <div class="tech slide-up"><span>Python</span></div>
+                <div class="tech slide-up"><span>R</span></div>
+                <div class="tech slide-up"><span>OCaml</span></div>
+                <div class="tech slide-up"><span>C++</span></div>
+                <div class="tech slide-up"><span>PyTorch</span></div>
+                <div class="tech slide-up"><span>Scikit-learn</span></div>
+                <div class="tech slide-up"><span>Pandas</span></div>
+                <div class="tech slide-up"><span>NumPy</span></div>
+                <div class="tech slide-up"><span>Matplotlib</span></div>
+                <div class="tech slide-up"><span>QuantLib</span></div>
+                <div class="tech slide-up"><span>Jupyter</span></div>
+                <div class="tech slide-up"><span>FastAPI</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right Side: Projects -->
+        <div class="projects-side">
+          <h2 class="slide-up">Projects</h2>
+          <div class="project-cards">
+            <!-- Project 1 -->
+            <div class="project-card slide-up">
+              <div class="project-header">
+                <h3>Portfolio Website with Interactive Design</h3>
+                <div class="project-period">2024</div>
+              </div>
+              <div class="project-description">
+                <p>Built a responsive personal portfolio website featuring VANTA.js animations, smooth scrolling effects, and dynamic content layouts using modern CSS and JavaScript.</p>
+              </div>
+            </div>
+            
+            <!-- Project 2 -->
+            <div class="project-card slide-up">
+              <div class="project-header">
+                <h3>Stock Price Prediction Using Machine Learning Models</h3>
+                <div class="project-period">2024</div>
+              </div>
+              <div class="project-description">
+                <p>Built machine learning models to predict stock price movements using historical data and technical indicators.</p>
+              </div>
+            </div>
+            
+            <!-- Project 3 -->
+            <div class="project-card slide-up">
+              <div class="project-header">
+                <h3>Bayesian Behavioral Modeling Approach to Opponent Profiling</h3>
+                <div class="project-period">Sep 2023 -- May 2024</div>
+              </div>
+              <div class="project-description">
+                <ul>
+                  <li>Designed a Bayesian inference model to estimate opponent bluffing tendencies across multi-street poker hands using betting patterns, position, and stack context.</li>
+                  <li>Built poker engine to simulate hand histories and dynamically update probabilistic opponent profiles.</li>
+                  <li>Applied game-theoretic reasoning and EV optimization to generate counter-strategies against varying bluff frequencies and behavioral profiles.</li>
+                </ul>
+              </div>
+            </div>
+            
+            <!-- Project 4 -->
+            <div class="project-card slide-up">
+              <div class="project-header">
+                <h3>Data Visualization Dashboard</h3>
+                <div class="project-period">2023</div>
+              </div>
+              <div class="project-description">
+                <p>Created an interactive dashboard for financial data visualization using Python, Pandas, and Matplotlib. Features real-time data updates and customizable chart configurations.</p>
+              </div>
+            </div>
+            
+            <!-- Project 5 -->
+            <div class="project-card slide-up">
+              <div class="project-header">
+                <h3>Algorithmic Trading Strategy</h3>
+                <div class="project-period">2023</div>
+              </div>
+              <div class="project-description">
+                <ul>
+                  <li>Developed quantitative trading algorithms using statistical arbitrage and momentum strategies.</li>
+                  <li>Implemented backtesting framework with risk management controls and performance metrics.</li>
+                  <li>Achieved 15% annual return with Sharpe ratio of 1.8 during testing period.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -487,15 +587,141 @@
 
   <!-- FOOTER -->
   <footer>
+    <div class="footer-content">
+      <div class="footer-cta">
+        <h3>Have a project in mind?</h3>
+        <a href="mailto:thomas@example.com" class="email-link">thomas@example.com</a>
+      </div>
+    </div>
     <p>© 2025 Thomas Ou. Crafted with precision and GSAP.</p>
   </footer>
 
 </body>
   <script>
+    // Force scroll to top immediately and prevent restore
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+    
+    // Disable scrolling during preloader
+    document.body.style.overflow = 'hidden';
+    
     // Initialize VANTA.NET on hero section with dynamic parameters
     let vantaEffect = null;
     
     document.addEventListener('DOMContentLoaded', function() {
+      // Force scroll to top on page load/reload
+      window.scrollTo(0, 0);
+      // Startup Preloader Animation
+      const preloader = document.getElementById('startup-preloader');
+      const bars = document.querySelectorAll('.preloader-bar');
+      
+      console.log('Preloader found:', preloader);
+      console.log('Bars found:', bars.length);
+      
+      if (preloader && bars.length > 0) {
+        const tl = gsap.timeline({
+          defaults: {
+            ease: 'power1.inOut',
+          }
+        });
+        
+        // First animate the name letters up (slower)
+        tl.to('.startup-name-text span', {
+          y: 0,
+          stagger: 0.08,
+          duration: 0.3,
+        });
+        
+        // Then animate all bars fading out together
+        tl.to(preloader, {
+          delay: 1,
+          autoAlpha: 0,
+          duration: 0.5,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            preloader.style.display = 'none';
+            // Re-enable scrolling after animation completes
+            document.body.style.overflow = 'auto';
+          }
+        })
+      }
+      // Custom cursor animation
+      const customCursor = document.getElementById('custom-cursor');
+      
+      // Show cursor on desktop only
+      if (window.innerWidth >= 768) {
+        // Mouse move handler for custom cursor
+        function handleMouseMove(e) {
+          if (!customCursor) return;
+          
+          gsap.to(customCursor, {
+            x: e.clientX,
+            y: e.clientY,
+            ease: 'power2.out',
+            duration: 0.25,
+            opacity: 1,
+          });
+        }
+        
+        // Hide cursor when mouse leaves window
+        function handleMouseLeave() {
+          if (!customCursor) return;
+          gsap.to(customCursor, {
+            opacity: 0,
+            duration: 0.2
+          });
+        }
+        
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseleave', handleMouseLeave);
+      }
+      
+      // Scroll progress indicator
+      const scrollProgressBar = document.querySelector('.scroll-progress-bar');
+      
+      function updateScrollProgress() {
+        if (!scrollProgressBar) return;
+        
+        const { scrollHeight, clientHeight } = document.documentElement;
+        const scrollableHeight = scrollHeight - clientHeight;
+        const scrollY = window.scrollY;
+        const scrollProgress = (scrollY / scrollableHeight) * 100;
+        
+        scrollProgressBar.style.transform = `translateY(-${100 - scrollProgress}%)`;
+      }
+      
+      // Initial call and scroll listener
+      updateScrollProgress();
+      window.addEventListener('scroll', updateScrollProgress);
+      
+      // Slide-up animations
+      const slideUpElements = document.querySelectorAll('.slide-up');
+      
+      if (slideUpElements.length > 0) {
+        slideUpElements.forEach((element) => {
+          gsap.fromTo(element, 
+            {
+              opacity: 0,
+              y: 40
+            },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: element,
+                start: 'top 85%',
+                end: 'bottom 15%',
+                toggleActions: 'play none none reverse'
+              }
+            }
+          );
+        });
+      }
+      
       // VANTA.NET for hero and about sections
       vantaEffect = VANTA.NET({
         el: "#hero",
@@ -514,8 +740,8 @@
         showDots: false
       });
       
-      // VANTA.WAVES for education section
-      const educationWaves = VANTA.WAVES({
+      // VANTA.DOTS for education section
+      const educationDots = VANTA.DOTS({
         el: "#education",
         mouseControls: true,
         touchControls: true,
@@ -524,15 +750,15 @@
         minWidth: 200.00,
         scale: 1.00,
         scaleMobile: 1.00,
-        color: 0x3D3C3A, // Darker, more muted version of your bg color
-        shininess: 15.00, // Reduced shininess for subtler look
-        waveHeight: 12.00, // Smaller waves for more elegant look
-        waveSpeed: 0.6, // Slower, more calming movement
-        zoom: 0.85 // Slightly closer zoom for better detail
+        color: 0x000000, // Black dots
+        backgroundColor: 0xFFFFFF, // White background
+        size: 3.00,
+        spacing: 25.00,
+        showLines: false
       });
       
-      // VANTA.WAVES for projects section
-      const projectsWaves = VANTA.WAVES({
+      // VANTA.DOTS for projects section
+      const projectsDots = VANTA.DOTS({
         el: "#projects",
         mouseControls: true,
         touchControls: true,
@@ -541,49 +767,11 @@
         minWidth: 200.00,
         scale: 1.00,
         scaleMobile: 1.00,
-        color: 0x4A453F, // Slightly lighter shade for variation
-        shininess: 12.00, // Even more subtle shininess
-        waveHeight: 10.00, // Smaller waves for cleaner look
-        waveSpeed: 0.5, // Slower, more peaceful movement
-        zoom: 0.90 // Better detail view
-      });
-      
-      // Simple snap-after-stop scrolling - no preventDefault to avoid jankiness
-      let snapTimer = null;
-      
-      window.addEventListener('wheel', (e) => {
-        // Clear any pending snap
-        if (snapTimer) {
-          clearTimeout(snapTimer);
-        }
-        
-        // Set up a snap after scrolling stops
-        snapTimer = setTimeout(() => {
-          const currentScroll = window.scrollY;
-          const viewportHeight = window.innerHeight;
-          let targetScroll = null;
-          
-          // Define snap zones
-          if (currentScroll < viewportHeight * 1.1) {
-            targetScroll = viewportHeight * 1.1; // Snap to about section
-          } else if (currentScroll >= viewportHeight * 1.1 && currentScroll < viewportHeight * 1.63) {
-            targetScroll = viewportHeight * 1.63; // Snap to next zone
-          } else if (currentScroll >= viewportHeight * 1.63 && currentScroll < viewportHeight * 1.85) {
-            targetScroll = viewportHeight * 1.85; // Snap to next zone
-          } else if (currentScroll >= viewportHeight * 1.85 && currentScroll < viewportHeight * 2.2) {
-            targetScroll = viewportHeight * 2.2; // Snap to next zone
-          } else if (currentScroll >= viewportHeight * 2.2) {
-            targetScroll = viewportHeight * 3; // Snap to final zone
-          }
-          
-          // Execute smooth snap if we have a target and we're not already close
-          if (targetScroll !== null && Math.abs(targetScroll - currentScroll) > 50) {
-            window.scrollTo({
-              top: targetScroll,
-              behavior: 'smooth'
-            });
-          }
-        }, 50); // Wait 200ms after last scroll event
+        color: 0x000000, // Black dots
+        backgroundColor: 0xFFFFFF, // White background
+        size: 3.00,
+        spacing: 25.00,
+        showLines: false
       });
       
       // Add scroll listener to update Vanta parameters
@@ -630,12 +818,12 @@
           const educationStart = scrollY + educationRect.top;
           const educationHeight = educationRect.height;
           
-          // Start fading at 4/5 through about section, finish at START of education section
-          const fadeStartPoint = aboutStart + (aboutHeight * 0.8); // 4/5 of the way through about section
+          // Start fading at 1/2 through about section, finish at START of education section
+          const fadeStartPoint = aboutStart + (aboutHeight * 0.6); // 1/2 of the way through about section
           const fadeEndPoint = educationStart; // START of education section (not end)
           
           if (scrollY >= fadeStartPoint && scrollY <= fadeEndPoint) {
-            // Calculate progress from 4/5 through about to start of education
+            // Calculate progress from 1/2 through about to start of education
             const fadeDistance = fadeEndPoint - fadeStartPoint;
             fadeScrollProgress = Math.min(1, Math.max(0, (scrollY - fadeStartPoint) / fadeDistance));
           } else if (scrollY > fadeEndPoint) {
@@ -673,8 +861,8 @@
         const heroNameStack = document.querySelector('.hero-name-stack');
         const heroNameFrontStack = document.querySelector('.hero-name-front-stack');
         if (heroNameStack && heroNameFrontStack) {
-          const scrollFadeStart = windowHeight * 0.1; // Start fading after 10% of viewport scroll (faster)
-          const scrollFadeEnd = windowHeight * 0.4;   // Fully faded after 40% of viewport scroll (much faster)
+          const scrollFadeStart = windowHeight * 0.05; // Start fading after 5% of viewport scroll (much faster)
+          const scrollFadeEnd = windowHeight * 0.15;   // Fully faded after 15% of viewport scroll (much faster)
           
           let nameOpacity = 1;
           if (scrollY >= scrollFadeStart) {

@@ -85,8 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Role typing will be triggered after bio typing completes
 
   function scrollToAbout() {
-    const aboutSection = document.querySelector("#about");
-    aboutSection.scrollIntoView({ behavior: 'smooth' });
+    // Removed smooth scrolling to eliminate snapping behavior
   }
   
   if (aboutBtn) aboutBtn.addEventListener("click", scrollToAbout);
@@ -318,7 +317,7 @@ window.addEventListener('scroll', () => {
   if (!hero || !heroSpacer || !aboutSection) return;
   
   const fadeStart = 0;
-  const fadeEnd = window.innerHeight * 0.2; // Faster fade - reduced from 0.4 to 0.2
+  const fadeEnd = window.innerHeight * 0.1; // Much faster fade - reduced to 0.1
   const scrollY = window.scrollY;
   
   // Don't override hero opacity - let Vanta scroll handler control it
@@ -352,25 +351,7 @@ window.addEventListener('scroll', () => {
     });
   }
   
-  // Animate about section content sliding up and fade in about elements
-  const slideStart = window.innerHeight * 0.5;
-  if (scrollY > slideStart) {
-    const slideProgress = Math.min(1, (scrollY - slideStart) / (window.innerHeight * 0.5));
-    gsap.set(aboutSection, {
-      y: 0,
-      // opacity removed - let individual elements handle their own fade-ins
-      overwrite: true
-    });
-    
-    // About section elements are now handled by handleAllFadeIns function
-    
-  } else {
-    gsap.set(aboutSection, {
-      y: 100,
-      // opacity removed - let individual elements handle their own fade-ins  
-      overwrite: true
-    });
-  }
+  // Removed GSAP section sliding animation to eliminate snap scrolling
 });
 
 
@@ -635,10 +616,10 @@ function handleDesktopFadeIn() {
 function handleMobileFadeIn() {
   // Mobile mode sticky positions: .about-hi-sticky(12vh), .about-hi-photo(-3.5vh), .about-hi-subtitle(54vh), #para-1(58vh), #para-2(66vh), .about-nav-buttons(78vh)
   const elements = [
-    { selector: '.about-hi-sticky', startOffset: .8, endOffset: 0.4 }, // No fade-out, stays visible
-    { selector: '.about-hi-photo', startOffset: 0.7, endOffset: .5 }, // 100% - (-3.5vh) = 103.5vh  
+    { selector: '.about-hi-sticky', startOffset: .6, endOffset: 0.4 }, // No fade-out, stays visible
+    { selector: '.about-hi-photo', startOffset: 0.6, endOffset: .5 }, // 100% - (-3.5vh) = 103.5vh  
     { selector: '.about-hi-subtitle', startOffset: 0.8, endOffset: 0.6 }, // 100% - 54vh = 46vh
-    { selector: '#para-1', startOffset: .86, endOffset: 0.78 }, // 100% - 58vh = 42vh
+    { selector: '#para-1', startOffset: .8, endOffset: 0.6 }, // 100% - 58vh = 42vh
     { selector: '#para-2', startOffset: .86, endOffset: 0.70 }, // 100% - 66vh = 34vh
     { selector: '.about-nav-buttons', startOffset: .9, endOffset: 0.83 } // 100% - 78vh = 22vh
   ];
@@ -777,8 +758,8 @@ function handleScreenFade() {
     ? aboutStart + (aboutHeight * 0.52) // Start at 52% through about section for mobile
     : aboutStart + (aboutHeight * 0.7); // Start at 30% through about section for desktop
   const overlayEndPoint = isMobileMode 
-    ? aboutStart + aboutHeight + (windowHeight * 1) // Fade out much later in mobile mode
-    : aboutStart + aboutHeight + (windowHeight * .9); // Fade out much sooner in desktop mode
+    ? aboutStart + aboutHeight + (windowHeight * 1) // Fade out even much later in mobile mode
+    : aboutStart + aboutHeight + (windowHeight * 1.2); // Fade out much sooner in desktop mode
   
   // Mobile elements fade out earlier than the overlay
   const mobileElementsFadeOutPoint = aboutStart + (aboutHeight * 0.73); // Fade out at 60% through about section
