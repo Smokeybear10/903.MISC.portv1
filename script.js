@@ -309,165 +309,52 @@ function initializeElementAnimations() {
 
 
 
-// STICKY HERO SCROLL - Background stays visible, names fade, content slides up
+// HERO SCROLL - Elements fade out naturally as they scroll up
 window.addEventListener('scroll', () => {
   const hero = document.getElementById('hero');
-  const heroSpacer = document.querySelector('.hero-spacer');
-  const aboutSection = document.getElementById('about');
-  if (!hero || !heroSpacer || !aboutSection) return;
+  if (!hero) return;
   
-  const fadeStart = 0;
-  const fadeEnd = window.innerHeight * 0.1; // Much faster fade - reduced to 0.1
   const scrollY = window.scrollY;
+  const heroHeight = hero.offsetHeight;
   
-  // Don't override hero opacity - let Vanta scroll handler control it
+  // Calculate fade based on how much the hero has scrolled out of view
+  const fadeProgress = Math.min(1, scrollY / (heroHeight * 0.8));
+  const opacity = 1 - fadeProgress;
   
-  // Fade the scrolling names as they move up
-  let nameOpacity = 1;
-  if (scrollY > fadeStart) {
-    nameOpacity = 1 - Math.min(1, (scrollY - fadeStart) / (fadeEnd - fadeStart));
-  }
-  
-  gsap.set(heroSpacer, {
-    opacity: nameOpacity,
-    overwrite: true
-  });
-  
-  // Also fade out hero description elements (typing card and intro blurb)
+  // Apply fade to all hero elements
+  const heroSpacer = document.querySelector('.hero-spacer');
   const heroTypingCard = document.querySelector('.hero-typing-card');
   const heroIntroBlurb = document.querySelector('.hero-intro-blurb');
   
+  if (heroSpacer) {
+    gsap.set(heroSpacer, {
+      opacity: opacity,
+      overwrite: true
+    });
+  }
+  
   if (heroTypingCard) {
     gsap.set(heroTypingCard, {
-      opacity: nameOpacity,
+      opacity: opacity,
       overwrite: true
     });
   }
   
   if (heroIntroBlurb) {
     gsap.set(heroIntroBlurb, {
-      opacity: nameOpacity,
+      opacity: opacity,
       overwrite: true
     });
   }
-  
-  // Removed GSAP section sliding animation to eliminate snap scrolling
 });
 
 
-// --- Enhanced Human Typing Animation for Bio ---
-const humanTypingSequence = [
-  { text: "Hi! I'm ", speed: 25 },
-  { text: "Thomas", speed: 35, bold: true, color: "#000", effect: "glow", boldDelay: 200 },
-  { text: ", an undergraduate mathematics and computer science major at ", speed: 20 },
-  { text: "UPenn", speed: 30, emphasis: true },
-  { pause: 100 },
-  { text: ".", speed: 30 },
-  { text: " I love turning strategic thinking", speed: 25 },
-  { pause: 400, cursorBlink: "thinking" },
-  { backspace: 26, speed: 15 }, // "turning strategic thinking"
-  { text: "applying game theory and mathematical reasoning into software solutions.", speed: 20 }
-];
-
-class HumanTypeWriter {
-  constructor(element, cursor) {
-    this.element = element;
-    this.cursor = cursor;
-    this.text = '';
-    this._thomasStart = null;
-    this._thomasEnd = null;
-    this._thomasBolded = false;
-  }
-
-  async type(sequence) {
-    for (let step of sequence) {
-      if (step.text && step.bold && step.text === "Thomas" && step.boldDelay) {
-        // Type 'Thomas' normally, then bold after delay
-        this._thomasStart = this.text.length;
-        await this.addText(step.text, step.speed, {});
-        this._thomasEnd = this.text.length;
-        await this.wait(step.boldDelay);
-        this.boldThomas(step.color);
-      } else if (step.text) {
-        await this.addText(step.text, step.speed, step);
-      } else if (step.backspace) {
-        await this.deleteText(step.backspace, step.speed);
-      } else if (step.pause) {
-        if (step.cursorBlink === "thinking") {
-          this.cursor.classList.add('thinking');
-        }
-        await this.wait(step.pause);
-        this.cursor.classList.remove('thinking');
-      }
-    }
-    // Bio typing animation is now completely finished
-    console.log('Bio typing animation completed');
-  }
-
-  boldThomas(color) {
-    if (this._thomasStart !== null && this._thomasEnd !== null && !this._thomasBolded) {
-      this.text =
-        this.text.slice(0, this._thomasStart) +
-        `<span class=\"typing-bold\" style=\"color:${color};\">Thomas</span>` +
-        this.text.slice(this._thomasEnd);
-      this.element.innerHTML = this.text;
-      this._thomasBolded = true;
-    }
-  }
-
-  async addText(text, speed, options = {}) {
-    for (let char of text) {
-      if (options.emphasis) {
-        if (!this.text.endsWith('</span>')) {
-          this.text += `<span class=\"typing-emphasis\">`;
-        }
-        this.text += char;
-        if (this.text.endsWith('UPenn')) {
-          this.text += `</span>`;
-        }
-      } else {
-        this.text += char;
-      }
-      this.element.innerHTML = this.text;
-      const humanVariation = speed + (Math.random() * 25 - 12);
-      await this.wait(Math.max(humanVariation, 15));
-    }
-  }
-
-  async deleteText(count, speed = 40) {
-    for (let i = 0; i < count; i++) {
-      // Handle HTML tags when backspacing
-      if (this.text.endsWith('>')) {
-        // Remove entire HTML tag
-        const lastTag = this.text.lastIndexOf('<');
-        this.text = this.text.slice(0, lastTag);
-      } else {
-        this.text = this.text.slice(0, -1);
-      }
-      this.element.innerHTML = this.text;
-      await this.wait(speed);
-    }
-  }
-
-  wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-}
-
-
-const bioTextEl = document.getElementById('bio-text');
-const bioCursorEl = document.getElementById('bio-cursor');
 
 // Initialize typed-words element for role cycling
 if (typedEl) {
   typedEl.classList.add('show'); // Make it visible
   typedEl.textContent = ''; // Start empty
 }
-// Show bio cursor
-if (bioCursorEl) bioCursorEl.style.opacity = 1;
-
-// Variable to track if bio typing is complete
-let bioTypingComplete = false;
 
 // Variable to track if elements should be fading out
 let shouldFadeOut = false;
@@ -484,47 +371,47 @@ window.addEventListener('scroll', () => {
   lastScrollY = currentScrollY;
 });
 
-// Handle right education container fade-in after grey box appears
+// Handle right education container fade-in after black box appears
 function handleRightEducationFadeIn() {
-  const greyBox = document.querySelector('.screen-width-grey-box');
+  const blackBox = document.querySelector('.screen-width-black-box');
   const educationElements = document.querySelectorAll('.right-education-container .timeline-container, .right-education-container .experience-cards-container, .right-education-container .research-cards-container');
   
-  if (!greyBox || !educationElements.length) return;
+  if (!blackBox || !educationElements.length) return;
   
-  // Check if grey box has faded in (opacity > 0.5)
-  const greyBoxStyle = window.getComputedStyle(greyBox);
-  const greyBoxOpacity = parseFloat(greyBoxStyle.opacity);
+  // Check if black box has faded in (opacity > 0.5)
+  const blackBoxStyle = window.getComputedStyle(blackBox);
+  const blackBoxOpacity = parseFloat(blackBoxStyle.opacity);
   
-  if (greyBoxOpacity > 0.5) {
-    // Grey box is visible, so fade in the education elements
+  if (blackBoxOpacity > 0.5) {
+    // Black box is visible, so fade in the education elements
     educationElements.forEach(element => {
       element.classList.add('fade-in');
     });
   } else {
-    // Grey box not visible yet, keep education elements hidden
+    // Black box not visible yet, keep education elements hidden
     educationElements.forEach(element => {
       element.classList.remove('fade-in');
     });
   }
 }
 
-// Handle grey box fade-in after buttons appear
-function handleGreyBoxFadeIn() {
-  const greyBox = document.querySelector('.screen-width-grey-box');
+// Handle black box fade-in after buttons appear
+function handleBlackBoxFadeIn() {
+  const blackBox = document.querySelector('.screen-width-black-box');
   const buttons = document.querySelector('.about-nav-buttons');
   
-  if (!greyBox || !buttons) return;
+  if (!blackBox || !buttons) return;
   
   // Check if buttons have faded in (opacity > 0.5)
   const buttonsStyle = window.getComputedStyle(buttons);
   const buttonsOpacity = parseFloat(buttonsStyle.opacity);
   
   if (buttonsOpacity > 0.5) {
-    // Buttons are visible, so fade in the grey box
-    greyBox.classList.add('fade-in');
+    // Buttons are visible, so fade in the black box
+    blackBox.classList.add('fade-in');
   } else {
-    // Buttons not visible yet, keep grey box hidden
-    greyBox.classList.remove('fade-in');
+    // Buttons not visible yet, keep black box hidden
+    blackBox.classList.remove('fade-in');
   }
 }
 
@@ -539,7 +426,7 @@ function handleAllFadeIns() {
     handleDesktopFadeIn();
   }
   
-  handleGreyBoxFadeIn();
+  handleBlackBoxFadeIn();
   handleRightEducationFadeIn();
 }
 
@@ -732,7 +619,7 @@ function updateThomasOuPosition() {
   }
 }
 
-// Handle solid grey box background when education content appears  
+// Handle solid black box background when education content appears  
 function handleScreenFade() {
   const aboutSection = document.getElementById('about');
   const overlay = document.querySelector('.screen-fade-overlay');
@@ -753,10 +640,10 @@ function handleScreenFade() {
   const windowWidth = window.innerWidth;
   const isMobileMode = windowWidth <= 964;
   
-  // Show grey overlay at different points for mobile vs desktop
+  // Show black overlay at different points for mobile vs desktop
   const overlayStartPoint = isMobileMode 
-    ? aboutStart + (aboutHeight * 0.52) // Start at 52% through about section for mobile
-    : aboutStart + (aboutHeight * 0.7); // Start at 30% through about section for desktop
+    ? aboutStart + (aboutHeight * 0.25) // Start at 52% through about section for mobile
+    : aboutStart + (aboutHeight * 0.4); // Start at 30% through about section for desktop
   const overlayEndPoint = isMobileMode 
     ? aboutStart + aboutHeight + (windowHeight * 1) // Fade out even much later in mobile mode
     : aboutStart + aboutHeight + (windowHeight * 1.2); // Fade out much sooner in desktop mode
@@ -765,10 +652,10 @@ function handleScreenFade() {
   const mobileElementsFadeOutPoint = aboutStart + (aboutHeight * 0.73); // Fade out at 60% through about section
   
   if (scrollY >= overlayStartPoint && scrollY <= overlayEndPoint) {
-    // Show full grey background
+    // Show full black background
     overlay.style.opacity = 1;
     
-    // Fade in Thomas Ou title and details elements at the same time as the grey overlay
+    // Fade in Thomas Ou title and details elements at the same time as the black overlay
     if (thomasOuTitle) {
       thomasOuTitle.classList.add('fade-in');
     }
@@ -796,7 +683,7 @@ function handleScreenFade() {
       }
     }
     
-    // Fade in education content at the same time as grey overlay
+    // Fade in education content at the same time as black overlay
     const educationContentRight = document.querySelector('.education-content-right');
     if (educationContentRight) {
       educationContentRight.classList.add('fade-in');
@@ -885,7 +772,7 @@ function handleScreenFade() {
     // Hide overlay when outside the range
     overlay.style.opacity = 0;
     
-    // Fade out Thomas Ou title and details elements when the grey overlay disappears
+    // Fade out Thomas Ou title and details elements when the black overlay disappears
     if (thomasOuTitle) {
       thomasOuTitle.classList.remove('fade-in');
     }
@@ -903,7 +790,7 @@ function handleScreenFade() {
       mobileSummaryContainer.classList.remove('fade-in');
     }
     
-    // Fade out education content when grey overlay disappears
+    // Fade out education content when black overlay disappears
     const educationContentRight = document.querySelector('.education-content-right');
     if (educationContentRight) {
       educationContentRight.classList.remove('fade-in');
@@ -932,29 +819,14 @@ window.addEventListener('DOMContentLoaded', handleAllFadeIns);
 window.addEventListener('DOMContentLoaded', handleScreenFade);
 window.addEventListener('DOMContentLoaded', updateThomasOuPosition);
 
-// Start human typing animation on DOMContentLoaded
+// Start role typing animation on DOMContentLoaded
 window.addEventListener('DOMContentLoaded', async () => {
-  // Start bio typing first
-  if (bioTextEl && bioCursorEl) {
-    const typewriter = new HumanTypeWriter(bioTextEl, bioCursorEl);
-    
-    // Wait for bio typing to completely finish
-    await typewriter.type(humanTypingSequence);
-    
-    // Hide bio cursor after bio typing is 100% complete
-    if (bioCursorEl) bioCursorEl.style.opacity = 0;
-    
-    // Mark bio typing as complete and start role typing immediately
-    bioTypingComplete = true;
-    console.log('Bio typing completed, starting role cycling');
-    
-    // Start role typing immediately
-    if (typedEl) {
-      roleIndex = 0;
-      charIndex = 0;
-      isTyping = false;
-      typeRole();
-    }
+  // Start role typing immediately since no bio typing needed
+  if (typedEl) {
+    roleIndex = 0;
+    charIndex = 0;
+    isTyping = false;
+    typeRole();
   }
 
   // Experience Cards Modal Functionality

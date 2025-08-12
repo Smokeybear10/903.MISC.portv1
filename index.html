@@ -92,7 +92,10 @@
     </nav>
   </header>
 
-  <!-- HERO - Fixed Background -->
+  <!-- VANTA BACKGROUND - Fixed -->
+  <div id="vanta-background"></div>
+
+  <!-- HERO CONTENT - Scrollable -->
   <section id="hero" class="panel hero">
     <div class="hero-container">
       <div class="hero-name-stack">
@@ -107,7 +110,7 @@
         <h2 class="typed-words"></h2>
       </div>
       <div class="hero-intro-blurb">
-        <span id="bio-text"></span><span id="bio-cursor">|</span>
+        <span>Hi! I'm <span class="typing-bold" style="color:#000;">Thomas</span>, an undergraduate mathematics and computer science major at <span class="typing-emphasis">UPenn</span>. I love applying game theory and mathematical reasoning into software solutions.</span>
       </div>
     </div>
   </section>
@@ -124,7 +127,7 @@
     
     <div class="about-container">
       <!-- Initial spacer -->
-      <div style="height: 70vh;"></div>
+      <div style="height: 0vh;"></div>
       
       
       <!-- Hello section outside container - appears first -->
@@ -172,7 +175,7 @@
           </div>
           
           <!-- Spacer before end of left half -->
-          <div style="height: 50vh;"></div>
+          <div style="height: 30vh;"></div>
         </div>
         
         <!-- Right half: photo -->
@@ -428,6 +431,13 @@
               </div>
             </div>
           </div>
+          
+          <!-- Additional spacing and content -->
+          <div style="height: 15vh;"></div>
+          
+          
+          <!-- Extra spacing at the bottom -->
+          <div style="height: 20vh;"></div>
         </div>
       </div>
     </div>
@@ -724,7 +734,7 @@
       
       // VANTA.NET for hero and about sections
       vantaEffect = VANTA.NET({
-        el: "#hero",
+        el: "#vanta-background",
         mouseControls: true,
         touchControls: true,
         gyroControls: false,
@@ -734,45 +744,12 @@
         scaleMobile: 1.00,
         color: 0xF97316,
         backgroundColor: 0xffffff,
-        points: 20.00,      // Start with more points
-        maxDistance: 50.00, // Start with higher distance
+        points: 8.00,       // Fewer points for less connections
+        maxDistance: 25.00, // Shorter connection distance
         spacing: 30.00,     // Keep consistent spacing
-        showDots: false
+        showDots: true
       });
       
-      // VANTA.DOTS for education section
-      const educationDots = VANTA.DOTS({
-        el: "#education",
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        scale: 1.00,
-        scaleMobile: 1.00,
-        color: 0x000000, // Black dots
-        backgroundColor: 0xFFFFFF, // White background
-        size: 3.00,
-        spacing: 25.00,
-        showLines: false
-      });
-      
-      // VANTA.DOTS for projects section
-      const projectsDots = VANTA.DOTS({
-        el: "#projects",
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        scale: 1.00,
-        scaleMobile: 1.00,
-        color: 0x000000, // Black dots
-        backgroundColor: 0xFFFFFF, // White background
-        size: 3.00,
-        spacing: 25.00,
-        showLines: false
-      });
       
       // Add scroll listener to update Vanta parameters
       window.addEventListener('scroll', () => {
@@ -818,12 +795,12 @@
           const educationStart = scrollY + educationRect.top;
           const educationHeight = educationRect.height;
           
-          // Start fading at 1/2 through about section, finish at START of education section
-          const fadeStartPoint = aboutStart + (aboutHeight * 0.6); // 1/2 of the way through about section
+          // Start fading at 10% through about section, finish at START of education section
+          const fadeStartPoint = aboutStart + (aboutHeight * 0.01); // 10% of the way through about section
           const fadeEndPoint = educationStart; // START of education section (not end)
           
           if (scrollY >= fadeStartPoint && scrollY <= fadeEndPoint) {
-            // Calculate progress from 1/2 through about to start of education
+            // Calculate progress from 10% through about to start of education
             const fadeDistance = fadeEndPoint - fadeStartPoint;
             fadeScrollProgress = Math.min(1, Math.max(0, (scrollY - fadeStartPoint) / fadeDistance));
           } else if (scrollY > fadeEndPoint) {
@@ -832,8 +809,8 @@
         }
         
         // Base values (visible during hero)
-        const basePoints = 20.00;
-        const baseMaxDistance = 50.00;
+        const basePoints = 8.00;
+        const baseMaxDistance = 25.00;
         const baseOpacity = 1.00;
         
         // Target values for points reduction (in about section)

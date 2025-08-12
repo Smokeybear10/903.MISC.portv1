@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects - Thomas Ou • Software Developer & Mathematician</title>
+  <!-- Google Fonts for modern look -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:900,700,400|Inter:400,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- GSAP -->
+  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- Your scripts -->
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <!-- Top overlay for vertical mode -->
+  <div class="top-overlay-vertical">
+    <div class="hamburger-menu">
+      <div class="hamburger-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Custom Cursor -->
+  <svg id="custom-cursor" width="27" height="30" viewBox="0 0 27 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20.0995 11.0797L3.72518 1.13204C2.28687 0.258253 0.478228 1.44326 0.704999 3.11083L3.28667 22.0953C3.58333 24.2768 7.33319 24.6415 8.3792 22.7043C9.5038 20.6215 10.8639 18.7382 12.43 17.7122C13.996 16.6861 16.2658 16.1911 18.6244 15.9918C20.8181 15.8063 21.9811 12.2227 20.0995 11.0797Z" fill="#F97316" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+  </svg>
+  
+  <!-- Cursor flashlight -->
+  <div class="cursor-light"></div>
+  
+  <!-- Scroll Progress Indicator -->
+  <div class="scroll-progress">
+    <div class="scroll-progress-bar"></div>
+  </div>
+
+  <!-- NAV -->
+  <header>
+    <nav class="nav-slide">
+      <div class="nav-content">
+        <div class="nav-header">
+          <h3><a href="index.html">Thomas Ou</a></h3>
+        </div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="experience.html">Experience</a></li>
+          <li><a href="projects.html" class="active">Projects</a></li>
+        </ul>
+        <div class="nav-footer">
+          <a href="Resume.pdf" class="resume-btn" target="_blank">Resume</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- PROJECTS PAGE HEADER -->
+  <section class="page-header">
+    <div class="container">
+      <h1>My Projects</h1>
+      <p>A showcase of my technical projects and achievements</p>
+    </div>
+  </section>
+
+  <!-- PROJECTS SECTION -->
+  <section id="projects" class="projects-page">
+    <div class="container">
+      
+      <!-- My Stack Section -->
+      <div class="stack-section">
+        <div class="section-title">
+          <h2>My Stack</h2>
+        </div>
+        <div class="stack-container">
+          <div class="tech-category">
+            <h3>Languages</h3>
+            <div class="tech-grid">
+              <span class="tech slide-up">Python</span>
+              <span class="tech slide-up">JavaScript</span>
+              <span class="tech slide-up">TypeScript</span>
+              <span class="tech slide-up">R</span>
+              <span class="tech slide-up">C++</span>
+              <span class="tech slide-up">SQL</span>
+            </div>
+          </div>
+          
+          <div class="tech-category">
+            <h3>Frameworks & Libraries</h3>
+            <div class="tech-grid">
+              <span class="tech slide-up">React</span>
+              <span class="tech slide-up">Node.js</span>
+              <span class="tech slide-up">Express</span>
+              <span class="tech slide-up">PyTorch</span>
+              <span class="tech slide-up">TensorFlow</span>
+              <span class="tech slide-up">Pandas</span>
+              <span class="tech slide-up">NumPy</span>
+              <span class="tech slide-up">Scikit-learn</span>
+            </div>
+          </div>
+          
+          <div class="tech-category">
+            <h3>Tools & Technologies</h3>
+            <div class="tech-grid">
+              <span class="tech slide-up">Git</span>
+              <span class="tech slide-up">Docker</span>
+              <span class="tech slide-up">AWS</span>
+              <span class="tech slide-up">PostgreSQL</span>
+              <span class="tech slide-up">MongoDB</span>
+              <span class="tech slide-up">Jupyter</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="projects-section">
+        <div class="section-title">
+          <h2>Featured Projects</h2>
+        </div>
+        
+        <div class="projects-grid">
+          <!-- Project 1 -->
+          <div class="project-card slide-up">
+            <div class="project-header">
+              <h3>Portfolio Website with Interactive Design</h3>
+              <div class="project-period">2024</div>
+            </div>
+            <div class="project-description">
+              <p>Built a responsive personal portfolio website featuring VANTA.js animations, smooth scrolling effects, and dynamic content layouts using modern CSS and JavaScript.</p>
+            </div>
+            <div class="project-tech">
+              <span class="tech-pill">HTML5</span>
+              <span class="tech-pill">CSS3</span>
+              <span class="tech-pill">JavaScript</span>
+              <span class="tech-pill">GSAP</span>
+              <span class="tech-pill">VANTA.js</span>
+            </div>
+          </div>
+          
+          <!-- Project 2 -->
+          <div class="project-card slide-up">
+            <div class="project-header">
+              <h3>Bayesian Poker Analysis Engine</h3>
+              <div class="project-period">2023-2024</div>
+            </div>
+            <div class="project-description">
+              <p>Developed a comprehensive poker analysis system using Bayesian inference to model opponent behavior and optimize decision-making in multi-street scenarios.</p>
+            </div>
+            <div class="project-tech">
+              <span class="tech-pill">Python</span>
+              <span class="tech-pill">NumPy</span>
+              <span class="tech-pill">SciPy</span>
+              <span class="tech-pill">Pandas</span>
+              <span class="tech-pill">Matplotlib</span>
+            </div>
+          </div>
+          
+          <!-- Project 3 -->
+          <div class="project-card slide-up">
+            <div class="project-header">
+              <h3>Financial Data ETL Pipeline</h3>
+              <div class="project-period">2024</div>
+            </div>
+            <div class="project-description">
+              <p>Engineered automated ETL pipelines for high-volume financial data processing, improving projection accuracy by 15% through advanced data validation and cleaning techniques.</p>
+            </div>
+            <div class="project-tech">
+              <span class="tech-pill">Python</span>
+              <span class="tech-pill">Pandas</span>
+              <span class="tech-pill">SQL</span>
+              <span class="tech-pill">Excel VBA</span>
+              <span class="tech-pill">PostgreSQL</span>
+            </div>
+          </div>
+          
+          <!-- Project 4 -->
+          <div class="project-card slide-up">
+            <div class="project-header">
+              <h3>Legal Document NLP Classifier</h3>
+              <div class="project-period">2023</div>
+            </div>
+            <div class="project-description">
+              <p>Built a Python-based natural language processing tool to automatically categorize legal documents, reducing manual review time by 60% for personal injury case documentation.</p>
+            </div>
+            <div class="project-tech">
+              <span class="tech-pill">Python</span>
+              <span class="tech-pill">NLTK</span>
+              <span class="tech-pill">Scikit-learn</span>
+              <span class="tech-pill">TF-IDF</span>
+              <span class="tech-pill">Regex</span>
+            </div>
+          </div>
+          
+          <!-- Project 5 -->
+          <div class="project-card slide-up">
+            <div class="project-header">
+              <h3>Plasma Physics Simulation</h3>
+              <div class="project-period">2024</div>
+            </div>
+            <div class="project-description">
+              <p>Simulated charged particle behavior in tokamak reactors under varied magnetic and plasma conditions at Princeton Plasma Physics Lab, contributing to fusion energy research.</p>
+            </div>
+            <div class="project-tech">
+              <span class="tech-pill">Python</span>
+              <span class="tech-pill">NumPy</span>
+              <span class="tech-pill">SciPy</span>
+              <span class="tech-pill">Matplotlib</span>
+              <span class="tech-pill">Fortran</span>
+            </div>
+          </div>
+          
+          <!-- Project 6 -->
+          <div class="project-card slide-up">
+            <div class="project-header">
+              <h3>Algorithmic Trading Strategy</h3>
+              <div class="project-period">2023</div>
+            </div>
+            <div class="project-description">
+              <p>Developed quantitative trading algorithms using statistical modeling and machine learning techniques for market analysis and automated decision-making.</p>
+            </div>
+            <div class="project-tech">
+              <span class="tech-pill">Python</span>
+              <span class="tech-pill">Pandas</span>
+              <span class="tech-pill">NumPy</span>
+              <span class="tech-pill">QuantLib</span>
+              <span class="tech-pill">API Integration</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2024 Thomas Ou. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

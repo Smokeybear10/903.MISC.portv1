@@ -543,9 +543,21 @@ button:hover, .btn:hover {
 }
 
 
-/* HERO SPECIFIC */
-#hero {
+/* VANTA BACKGROUND - Fixed */
+#vanta-background {
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  background: transparent !important;
+  pointer-events: none;
+}
+
+/* HERO CONTENT - Scrollable */
+#hero {
+  position: relative;
   top: 0;
   left: 0;
   width: 100vw;
@@ -557,7 +569,7 @@ button:hover, .btn:hover {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  z-index: 1;
+  z-index: 2;
 }
 
 /* Hero container - matches about me section width */
@@ -991,7 +1003,7 @@ footer {
   top: 100%;
   width: 2px;
   height: calc(100% + 2.5rem);
-  background: #000000;
+  background: #d0d0d0;
   transform: translateX(-50%);
   z-index: 1;
 }
@@ -1046,7 +1058,7 @@ footer {
 .about-hi-sticky {
   position: sticky !important;
   top: 20vh !important;
-  z-index: 100 !important;
+  z-index: 10;
   font-family: 'Anton', 'Montserrat', 'Inter', Arial, sans-serif;
   font-size: clamp(1rem, 3.5vw, 2.7rem);
   font-weight: 900;
@@ -1059,7 +1071,6 @@ footer {
   width: fit-content;
   margin-left: max(.5vw, calc(50% - 600px));
   padding-right: 0;
-  align-self: flex-start !important;
 }
 
 .hello-i-am {
@@ -1624,7 +1635,7 @@ footer {
 
 
 #education {
-  background-color: transparent; /* Remove grey background - now handled by overlay */
+  background-color: transparent; /* Remove background - now handled by overlay */
   color: #ffffff; /* White text for contrast */
   padding: 2rem 0 !important;
   position: relative;
@@ -2240,34 +2251,7 @@ footer {
 
 
 
-.floating-dot {
-  position: absolute;
-  bottom: -20px;
-  border-radius: 50%;
-  background: rgba(249, 115, 22, 0.15);
-  animation: float-up linear forwards;
-  z-index: 1;
-}
-
-@keyframes float-up {
-  0% {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 0.4;
-  }
-  90% {
-    opacity: 0.2;
-  }
-  100% {
-    transform: translateY(-100vh);
-    opacity: 0;
-  }
-} */
+ */
 
 #experience .container {
   position: relative;
@@ -2970,14 +2954,14 @@ footer {
   }
 }
 
-/* Grey section box and screen-width grey box */
-.grey-section-box {
+/* Black section box and screen-width black box */
+.black-section-box {
   position: relative;
   width: 100%;
   z-index: 1;
 }
 
-.screen-width-grey-box {
+.screen-width-black-box {
   width: 100vw;
   height: 100vh;
   background: #000000;
@@ -2988,7 +2972,7 @@ footer {
   transition: opacity 0.8s ease;
 }
 
-.screen-width-grey-box.fade-in {
+.screen-width-black-box.fade-in {
   opacity: 1;
 }
 
@@ -3319,11 +3303,5 @@ body::-webkit-scrollbar {
 .startup-name-text span {
   display: inline-block;
   transform: translateY(100%);
-}
-
-/* SLIDE-UP ANIMATION */
-.slide-up {
-  opacity: 0;
-  transform: translateY(40px);
 }
 

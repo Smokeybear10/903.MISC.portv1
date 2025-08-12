@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experience - Thomas Ou • Software Developer & Mathematician</title>
+  <!-- Google Fonts for modern look -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:900,700,400|Inter:400,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- GSAP -->
+  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- Your scripts -->
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <!-- Top overlay for vertical mode -->
+  <div class="top-overlay-vertical">
+    <div class="hamburger-menu">
+      <div class="hamburger-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Custom Cursor -->
+  <svg id="custom-cursor" width="27" height="30" viewBox="0 0 27 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20.0995 11.0797L3.72518 1.13204C2.28687 0.258253 0.478228 1.44326 0.704999 3.11083L3.28667 22.0953C3.58333 24.2768 7.33319 24.6415 8.3792 22.7043C9.5038 20.6215 10.8639 18.7382 12.43 17.7122C13.996 16.6861 16.2658 16.1911 18.6244 15.9918C20.8181 15.8063 21.9811 12.2227 20.0995 11.0797Z" fill="#F97316" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+  </svg>
+  
+  <!-- Cursor flashlight -->
+  <div class="cursor-light"></div>
+  
+  <!-- Screen fade overlay -->
+  <div class="screen-fade-overlay"></div>
+  
+  <!-- Scroll Progress Indicator -->
+  <div class="scroll-progress">
+    <div class="scroll-progress-bar"></div>
+  </div>
+
+  <!-- NAV -->
+  <header>
+    <nav class="nav-slide">
+      <div class="nav-content">
+        <div class="nav-header">
+          <h3><a href="index.html">Thomas Ou</a></h3>
+        </div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="experience.html" class="active">Experience</a></li>
+          <li><a href="projects.html">Projects</a></li>
+        </ul>
+        <div class="nav-footer">
+          <a href="Resume.pdf" class="resume-btn" target="_blank">Resume</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- EXPERIENCE PAGE HEADER -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Experience & Education</h1>
+      <p>A summary of my professional journey as an undergraduate student</p>
+    </div>
+  </section>
+
+  <!-- EDUCATION TIMELINE -->
+  <section id="education" class="experience-page">
+    <div class="container">
+      <div class="education-content-right">
+        <div class="education-layout">
+          <div class="education-section-title">
+            <h3>Education</h3>
+          </div>
+          
+          <div class="timeline-container" data-section-type="education">
+            <div class="timeline-track"></div>
+            
+            <!-- Timeline Item 1 -->
+            <div class="degree-timeline">
+              <div class="timeline-node">
+                <div class="timeline-dot"></div>
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-year-badge">2022 - 2026</div>
+                <h3>Bachelor of Arts in Mathematics</h3>
+                <div class="timeline-school">University of Pennsylvania</div>
+                <div class="timeline-location">Philadelphia, PA</div>
+                <div class="course-pills">
+                  <div class="course-pill">Computer Science Minor</div>
+                  <div class="course-pill">Statistics Concentration</div>
+                  <div class="course-pill">Dean's List</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Timeline Item 2 -->
+            <div class="degree-timeline">
+              <div class="timeline-node">
+                <div class="timeline-dot"></div>
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-year-badge">2019 - 2022</div>
+                <h3>High School Diploma</h3>
+                <div class="timeline-school">Trumbull High School</div>
+                <div class="timeline-location">Trumbull, CT</div>
+                <div class="course-pills">
+                  <div class="course-pill">Valedictorian</div>
+                  <div class="course-pill">National Merit Scholar</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Timeline Item 3 -->
+            <div class="degree-timeline">
+              <div class="timeline-node">
+                <div class="timeline-dot"></div>
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-year-badge">Summer 2021</div>
+                <h3>Advanced Mathematics Program</h3>
+                <div class="timeline-school">MIT Summer Program</div>
+                <div class="timeline-location">Cambridge, MA</div>
+                <div class="course-pills">
+                  <div class="course-pill">Linear Algebra</div>
+                  <div class="course-pill">Differential Equations</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Experience Cards -->
+          <div class="experience-section-title">
+            <h3>Professional Experience</h3>
+          </div>
+          
+          <div class="experience-cards-container" data-section-type="experience">
+            <!-- Experience Item 1 -->
+            <div class="experience-card" data-experience="flushing-cpa">
+              <div class="experience-header">
+                <h3>Data & Analytics</h3>
+                <div class="experience-period">Feb 2024 -- May 2024</div>
+              </div>
+              <div class="experience-company">Flushing CPA Tax Center</div>
+              <div class="experience-location">New York, NY</div>
+              <div class="experience-description">
+                <p>Engineered ETL pipelines automating high-volume data ingestion, improved projection accuracy by 15%. Created Excel-based compliance detection macros.</p>
+              </div>
+            </div>
+            
+            <!-- Experience Item 2 -->
+            <div class="experience-card" data-experience="spodnick-law">
+              <div class="experience-header">
+                <h3>Legal Research & NLP</h3>
+                <div class="experience-period">Sep 2023 -- Dec 2023</div>
+              </div>
+              <div class="experience-company">Offices of Jonathan Spodnick</div>
+              <div class="experience-location">Trumbull, CT</div>
+              <div class="experience-description">
+                <p>Conducted legal research and prepared discovery documentation. Built Python-based NLP tool to categorize legal texts and reduce manual review time.</p>
+              </div>
+            </div>
+            
+            <!-- Experience Item 3 -->
+            <div class="experience-card" data-experience="citic-securities">
+              <div class="experience-header">
+                <h3>Fintech Analyst</h3>
+                <div class="experience-period">Jun 2023 -- Jul 2023</div>
+              </div>
+              <div class="experience-company">CITIC Securities</div>
+              <div class="experience-location">Beijing, China</div>
+              <div class="experience-description">
+                <p>Contributed to listing proposal for $11B spaceflight network company. Assessed market impact of regulatory penalties during CITIC's RMB regulatory penalty.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Research Cards -->
+          <div class="research-section-title">
+            <h3>Research Experience</h3>
+          </div>
+          
+          <div class="research-cards-container" data-section-type="research">
+            <!-- Research Item 1 -->
+            <div class="research-card" data-research="pppl">
+              <div class="research-header">
+                <h3>Research Assistant</h3>
+                <div class="research-period">Jul 2024 -- Aug 2024</div>
+              </div>
+              <div class="research-company">Princeton Plasma Physics Lab (PPPL)</div>
+              <div class="research-description">
+                <p>Simulated charged particle behavior in tokamak reactors under varied magnetic/plasma conditions.</p>
+              </div>
+            </div>
+            
+            <!-- Research Item 2 -->
+            <div class="research-card" data-research="capstone">
+              <div class="research-header">
+                <h3>Bayesian Behavioral Modeling Approach to Opponent Profiling</h3>
+                <div class="research-period">Sep 2023 -- May 2024</div>
+              </div>
+              <div class="research-company">Capstone Project</div>
+              <div class="research-description">
+                <p>Designed a Bayesian inference model to estimate opponent bluffing tendencies across multi-street poker hands using betting patterns, position, and stack context.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2024 Thomas Ou. All rights reserved.</p>
+  </footer>
+
+  <!-- Experience Modal -->
+  <div id="experience-modal" class="modal">
+    <div class="modal-content experience-modal-content">
+      <div class="modal-header">
+        <div class="experience-year-badge"></div>
+        <span class="experience-modal-close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <h2 class="experience-modal-title"></h2>
+        <div class="experience-modal-company"></div>
+        <div class="experience-modal-location"></div>
+        <div class="experience-modal-details"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Research Modal -->
+  <div id="research-modal" class="modal">
+    <div class="modal-content research-modal-content">
+      <div class="modal-header">
+        <div class="research-year-badge"></div>
+        <span class="research-modal-close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <h2 class="research-modal-title"></h2>
+        <div class="research-modal-company"></div>
+        <div class="research-modal-details"></div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
